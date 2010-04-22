@@ -1,38 +1,38 @@
-MukioPlayer 1.132 Web Ô´´úÂë(È«)
+ï»¿MukioPlayer 1.132 Web æºä»£ç (å…¨)
 
-ÓÃFlashDevelop´ò¿ª,ÅäÖÃºÃÁËFlexµÄ»°¿ÉÒÔÖ±½Ó±àÒë
+ç”¨FlashDevelopæ‰“å¼€,é…ç½®å¥½äº†Flexçš„è¯å¯ä»¥ç›´æ¥ç¼–è¯‘
 
-¼òµ¥ËµÃ÷Ò»ÏÂ°É:
+ç®€å•è¯´æ˜ä¸€ä¸‹å§:
 
-UI¶¼»ù±¾¼¯ÖĞÔÚorg\lala\plugins\CommentListSender.as
-½ÓÊÕºÍ·¢ËÍµ¯Ä»¶¼ÔÚorg\lala\utils\CommentGetter.as
-µ¯Ä»Ëã·¨ÔÚorg\lala\utils\CommentViewManager.as,²»Í¬µÄÄ£Ê½¿ÉÒÔÓÉ´Ë¼Ì³ĞÈçNBottomCommentViewManager.as,¿ÉÒÔ°´ÕÕÀı×ÓĞ´Ò»¸öĞÂµÄµ¯Ä»ÖÖÀà.[ÄæÏòµ¯Ä»ºÍÅÀĞĞµ¯Ä»Ã»ÓÃÉÏ,µ«ÊÇÔ´ÎÄ¼ş»¹ÔÚ]
-µ¯Ä»µÄÕ¹Ê¾ÔÚorg\lala\plugins\CommentView.as
-CommentViewManager±ØĞëÔÚCommentViewÖĞ×¢²á,²¢¼àÌıCommentGetter·¢ËÍ³öÀ´µÄµ¯Ä»Ä£Ê½ÏûÏ¢
+UIéƒ½åŸºæœ¬é›†ä¸­åœ¨org\lala\plugins\CommentListSender.as
+æ¥æ”¶å’Œå‘é€å¼¹å¹•éƒ½åœ¨org\lala\utils\CommentGetter.as
+å¼¹å¹•ç®—æ³•åœ¨org\lala\utils\CommentViewManager.as,ä¸åŒçš„æ¨¡å¼å¯ä»¥ç”±æ­¤ç»§æ‰¿å¦‚NBottomCommentViewManager.as,å¯ä»¥æŒ‰ç…§ä¾‹å­å†™ä¸€ä¸ªæ–°çš„å¼¹å¹•ç§ç±».[é€†å‘å¼¹å¹•å’Œçˆ¬è¡Œå¼¹å¹•æ²¡ç”¨ä¸Š,ä½†æ˜¯æºæ–‡ä»¶è¿˜åœ¨]
+å¼¹å¹•çš„å±•ç¤ºåœ¨org\lala\plugins\CommentView.as
+CommentViewManagerå¿…é¡»åœ¨CommentViewä¸­æ³¨å†Œ,å¹¶ç›‘å¬CommentGetterå‘é€å‡ºæ¥çš„å¼¹å¹•æ¨¡å¼æ¶ˆæ¯
 
-org\lala\pluginsÖĞ¶¼ÊÇ±ê×¼µÄJWPlayer²å¼ş
-org\lala\modelsÖĞÊÇ±ê×¼µÄJWPlayer Model,ÓÃÀ´²¥·ÅĞÂÀËÊÓÆµµÄ
+org\lala\pluginsä¸­éƒ½æ˜¯æ ‡å‡†çš„JWPlayeræ’ä»¶
+org\lala\modelsä¸­æ˜¯æ ‡å‡†çš„JWPlayer Model,ç”¨æ¥æ’­æ”¾æ–°æµªè§†é¢‘çš„
 
-JWPlayer×ÜÌå½á¹¹ÊÇMVCµÄ
-¶øµ¯Ä»²å¼şÓÖÊÇMVCÖĞµÄMVC,ÎªÁË×ñÑ­¸ÃÔ­Ôò,ºÜ¶àÊÂ¼ş¶¼ÊÇÈÆ×Å×ßµÄ,¿´ÉÏÈ¥ÓĞµã¹Ö
+JWPlayeræ€»ä½“ç»“æ„æ˜¯MVCçš„
+è€Œå¼¹å¹•æ’ä»¶åˆæ˜¯MVCä¸­çš„MVC,ä¸ºäº†éµå¾ªè¯¥åŸåˆ™,å¾ˆå¤šäº‹ä»¶éƒ½æ˜¯ç»•ç€èµ°çš„,çœ‹ä¸Šå»æœ‰ç‚¹æ€ª
 
-FlSWC.swc[flash¿Ø¼ş]
-MukioLib.swc[LogoºÍÒ»Ğ©UIÃÀ»¯]
-buttons.swc [Ò»Ğ©UIÃÀ»¯]
+FlSWC.swc[flashæ§ä»¶]
+MukioLib.swc[Logoå’Œä¸€äº›UIç¾åŒ–]
+buttons.swc [ä¸€äº›UIç¾åŒ–]
 five.swf
-flash.swc[flash¿â]
+flash.swc[flashåº“]
 loader.swf
 regular.swf
 
-ÊÇÓÃµ½µÄÆ¤·ôºÍ¿â,regular.swfºÍfive.swfÖ»ÓÃµ½Ò»¸ö
+æ˜¯ç”¨åˆ°çš„çš®è‚¤å’Œåº“,regular.swfå’Œfive.swfåªç”¨åˆ°ä¸€ä¸ª
 
-ff.pac[ä¯ÀÀÆ÷×Ô¶¯Ñ¡Ôñ½Å±¾,for firefox]
-proxyformukioplayer.py[¼òÒ×µÄ´úÀí·şÎñÆ÷,ĞèÒªpython»·¾³]
+ff.pac[æµè§ˆå™¨è‡ªåŠ¨é€‰æ‹©è„šæœ¬,for firefox]
+proxyformukioplayer.py[ç®€æ˜“çš„ä»£ç†æœåŠ¡å™¨,éœ€è¦pythonç¯å¢ƒ]
 
-ÊÇÌæ»»acfunµÈÍøÒ³ÖĞµÄ²¥·ÅÆ÷Îª±¾²¥·ÅÆ÷,²âÊÔÓÃµÄ
+æ˜¯æ›¿æ¢acfunç­‰ç½‘é¡µä¸­çš„æ’­æ”¾å™¨ä¸ºæœ¬æ’­æ”¾å™¨,æµ‹è¯•ç”¨çš„
 
-ÏêÏ¸ĞÅÏ¢¿ÉÒÔµ½ÏîÄ¿Ö÷Ò³¿´:http://code.google.com/p/mukioplayer/
-°Ù¶È¿Õ¼äÒ²ÓĞÒ»Ğ©ĞÅÏ¢:http://hi.baidu.com/aristotle9
+è¯¦ç»†ä¿¡æ¯å¯ä»¥åˆ°é¡¹ç›®ä¸»é¡µçœ‹:http://code.google.com/p/mukioplayer/
+ç™¾åº¦ç©ºé—´ä¹Ÿæœ‰ä¸€äº›ä¿¡æ¯:http://hi.baidu.com/aristotle9
 
 aristotle9
-2010Äê4ÔÂ18ÈÕ
+2010å¹´4æœˆ18æ—¥
