@@ -45,13 +45,18 @@ class MukioTools():
     return MukioTools.namelist[n]
 
   @staticmethod
+  def delete(lst):
+    for i in lst:
+      i.delete()
+
+  @staticmethod
   def delete_video_by_key_name(keyname):
     v = Video.get_by_key_name(keyname)
     if v:
       comments = v.comment_set
-      db.delete(comments)
+      MukioTools.delete(comments)
       cblocks = v.cblock_set
-      db.delete(cblocks)# 新,删永久xml
+      MukioTools.delete(cblocks)# 新,删永久xml
 
       v.delete()
 
@@ -60,14 +65,14 @@ class MukioTools():
     v = Video.get_by_key_name(keyname)
     if v:
       comments = v.comment_set
-      db.delete(comments)
+      MukioTools.delete(comments)
 
   @staticmethod
   def delete_permanent_comment_by_video_key_name(keyname):
     v = Video.get_by_key_name(keyname)
     if v:
       cblocks = v.cblock_set
-      db.delete(cblocks)
+      MukioTools.delete(cblocks)
 
   @staticmethod
   def delete_comment_by_video_key_name_without_author(keyname):
