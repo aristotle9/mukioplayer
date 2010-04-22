@@ -1,0 +1,28 @@
+<!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<script type='text/javascript' language='javascript'>
+<!--
+function load()
+{
+	if(parent)
+	{
+		var chatfield = parent.document.getElementById('chatfield');
+		if(chatfield)
+		{
+			chatfield.innerHTML = document.getElementById('content').innerHTML;
+		}
+	}
+}
+//-->
+</script>
+</head>
+<body onload='load()'>
+<div id='content'>
+{{ chatstr }}
+{% include "postchat.html" %}
+</div>
+</body>
+</html>
