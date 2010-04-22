@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+<h2 >发布新主题:</h2>
+<form id='postarticle' method='post' action='/post.php'>
+<label for="title">*标题:</label><input type='text' name='title' size='40' />
+<label>UP主:</label>{{ user.nickname }}
+<label for="classify">*分类:</label><select name='classify'>
+<option value='0'>动画</option>
+<option value='1'>音乐</option>
+<option value='2'>游戏</option>
+<option value='3'>娱乐</option>
+<option value='4'>番影</option>
+</select>
+<label for="tags">标签(空格隔开):</label><input type='text' name='tags' size='40' />
+<label for="abs">*简介:</label><textarea name='abs' rows='10' cols='50'></textarea>
+<div id='submit'>
+<input type='submit' value='发布' />
+</div>
+</form>
+{% endblock %}
