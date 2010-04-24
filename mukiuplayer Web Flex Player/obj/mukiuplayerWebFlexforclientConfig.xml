@@ -5,18 +5,18 @@
   <target-player>10.0.0</target-player>
   <compiler>
     <source-path append="true">
-      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client</path-element>
+      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player</path-element>
       <path-element>D:\Program Files\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client\FlSWC.swc</path-element>
-      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client\flash.swc</path-element>
-      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client\buttons.swc</path-element>
-      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client\MukioLib.swc</path-element>
+      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player\FlSWC.swc</path-element>
+      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player\flash.swc</path-element>
+      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player\buttons.swc</path-element>
+      <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player\MukioLib.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer Web Flex for client\com\jeroenwijering\player\Player.as</path-element>
+    <path-element>D:\My Softwares\flash\flex\jw\mukiuplayer%20Web%20Flex%20Player\com\jeroenwijering\player\Player.as</path-element>
   </file-specs>
   <default-background-color>#99CCFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
