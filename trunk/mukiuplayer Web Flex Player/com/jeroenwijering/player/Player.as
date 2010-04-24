@@ -19,6 +19,7 @@ import org.lala.plugins.*;
 import org.lala.utils.*;
 
 
+[SWF(backgroundColor="0x99CCFF", width="950", height="432", frameRate="30")]
 public class Player extends MovieClip {
 
 

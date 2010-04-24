@@ -330,7 +330,7 @@
 		}
 		protected function timmerHandler(evt:CommentViewEvent):void
 		{
-			var pos:Number = Number(evt.data);
+			var pos:Number = Number(evt.data) - 0.001;
 			if (mainPointer >= mainArray.length || Math.abs(pos - oldPos) > 2)
 			{
 				seekToPoint(pos);
@@ -417,7 +417,7 @@
 		{
 //			return 4.58 * (1.2 * Width + 2.4 * d) / (1.2*550)  ;
 			//return (2 * data.width + 1.6 * Width)*4.58 / (1.2*550);
-			return 4 * (Width + data.width) / (Width + Strings.innerSize(data.size));
+			return 5 * (Width + data.width) / (Width + Strings.innerSize(data.size));
 		}
 		protected function insertPool(a:Object,index:int=0):void
 		{
