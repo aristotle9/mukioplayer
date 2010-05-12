@@ -10,4 +10,4 @@
 
 = detail =
 
-[http://mukioplayer.googlecode.com/svn/wiki/imgs/dataflow.gif]
+[http://mukioplayer.googlecode.com/svn/wiki/imgs/detail-schemaflowchat.gif]
