@@ -2,12 +2,12 @@
 
 = general =
 
-[http://code.google.com/p/mukioplayer/svn/wiki/schemaflowchat.gif]
+[img/schemaflowchat.gif]
 
 = flow of data =
 
-[http://code.google.com/p/mukioplayer/wiki/dataflow.gif]
+[img/dataflow.gif]
 
 = detail =
 
-[http://code.google.com/p/mukioplayer/wiki/dataflow.gif]
+[img/dataflow.gif]
