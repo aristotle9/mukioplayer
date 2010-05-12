@@ -2,12 +2,12 @@
 
 = general =
 
-[img/schemaflowchat.gif]
+[imgs/schemaflowchat.gif]
 
 = flow of data =
 
-[img/dataflow.gif]
+[imgs/dataflow.gif]
 
 = detail =
 
-[img/dataflow.gif]
+[imgs/dataflow.gif]
