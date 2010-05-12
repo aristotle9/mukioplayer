@@ -1,0 +1,13 @@
+#summary convenient to developer
+
+= general =
+
+[schemaflowchat.gif]
+
+= flow of data =
+
+[dataflow.gif]
+
+= detail =
+
+[dataflow.gif]
