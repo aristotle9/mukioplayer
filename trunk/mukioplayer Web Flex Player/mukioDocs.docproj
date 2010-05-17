@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<docProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <pageTitle>MukioPlayer</pageTitle>
+  <classPaths>D:\My Softwares\flash\flex\jw\mukiuplayer1.130 Web Flex\org;D:\My Softwares\flash\flex\jw\mukiuplayer1.130 Web Flex\com</classPaths>
+  <sourcesList>CommentListSender Player RTMPModel</sourcesList>
+  <outputDirectory>D:\My Softwares\flash\flex\jw\mukiuplayer1.130 Web Flex\MukioDocs</outputDirectory>
+  <activeCompiler>1</activeCompiler>
+  <extraOptions>-define=CONFIG::debugging,false -library-path+=as3corelib.swc -library-path+=buttons.swc -library-path+=flash.swc -library-path+=FlSWC.swc -library-path+=msbt.swc -library-path+=MukioLib.swc</extraOptions>
+</docProject>
