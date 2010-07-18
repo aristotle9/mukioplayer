@@ -7,7 +7,8 @@ JW Player的使用协议(readme-jwplayer.html)
 
 编译环境:
 
-FlashDevelop + Flex 3.5
+ant + Flex SDK 3.5
+请安装ant，进入cmd模式，cd %项目目录%， ant
 
 文档:
 
