@@ -30,7 +30,7 @@ package org.lala.components
 	public class PopoDesigner extends Sprite
 	{
 		
-		[Embed(source="/libs/target.png")]
+		[Embed(source="asset/target.png")]
 		private const TargetIcon:Class;
 		
 		private var targetSpot:Bitmap;
