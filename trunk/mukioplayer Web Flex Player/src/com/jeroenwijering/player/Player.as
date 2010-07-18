@@ -23,10 +23,10 @@ public class Player extends MovieClip {
 
 
 	//[Embed(source="../../../regular.swf")]
-	[Embed(source="/libs/five.swf")]
+	[Embed(source="asset/five.swf")]
 	private const EmbeddedSkin:Class;
 	
-	[Embed(source="/libs/loader.swf")]
+	[Embed(source="asset/loader.swf")]
 	protected var LoadingScreen:Class;
 	/** All configuration values. Change them to hard-code your preferences. **/
 	public static var WIDTH:int = 540;
@@ -197,7 +197,7 @@ public class Player extends MovieClip {
 		model.addModel(new HTTPModel(model),'http');
 		model.addModel(new ImageModel(model),'image');
 		model.addModel(new LivestreamModel(model),'livestream');
-		model.addModel(new RTMPModel(model),'rtmp');
+		// model.addModel(new RTMPModel(model),'rtmp');
 		model.addModel(new SoundModel(model),'sound');
 		model.addModel(new VideoModel(model),'video');
 		model.addModel(new YoutubeModel(model), 'youtube');
