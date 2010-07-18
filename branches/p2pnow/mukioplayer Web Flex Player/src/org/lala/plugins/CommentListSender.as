@@ -26,8 +26,7 @@
 	import flash.ui.ContextMenu;
 	import flash.utils.Timer;
 	
-	import flash.desktop.Clipboard;
-	import flash.desktop.ClipboardFormats;
+
 	
 	import com.jeroenwijering.events.*;
 	import com.jeroenwijering.utils.*;
@@ -68,13 +67,13 @@
 		private var selectedModeButton:Button;
 		private var modeStyleControl:ModeSelectControl;
 		private var colorPicker:ColorPicker;
-		[Embed(source="/libs/cIcon.gif")]
+		[Embed(source="asset/cIcon.gif")]
 		private var CommentIcon:Class;
 		private var commentIco:Bitmap;
 		
 		private var trackCommentButton:CheckBox;
 		
-		[Embed(source="/libs/cycleIcon.gif")]
+		[Embed(source="asset/cycleIcon.gif")]
 		private var CycleIcon:Class;
 		private var cycleIco:Bitmap;
 		
@@ -216,8 +215,8 @@
 				{
 					return;
 				}
-				Clipboard.generalClipboard.clear();
-				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, dg.selectedItem['评论']);
+			//	Clipboard.generalClipboard.clear();
+			//	Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, dg.selectedItem['评论']);
 			});
 			var dgCopyMn:ContextMenu = new ContextMenu();
 			dgCopyMn.hideBuiltInItems();
