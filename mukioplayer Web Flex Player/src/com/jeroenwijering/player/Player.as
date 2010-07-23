@@ -205,6 +205,7 @@ public class Player extends MovieClip {
 		model.addModel(new BOKECCModel(model),'bokecc');//add
 		model.addModel(new YOUKUModel(model),'youku');//add
 		model.addModel(new SIXROOMModel(model),'6room');//add
+		model.addModel(new QQModel(model),'qq');//add
 	};
 
 
@@ -253,11 +254,16 @@ public class Player extends MovieClip {
 				config['type'] = 'sina';
 			}//adapt acfun
 			
-			if ((config['id'] || config['vid']) && config['file'])
+			if ((config['id'] || config['vid'] || config['pid']) && config['file'])
 			{
 				if(!String(config['file']).match('.mp3'))
 					config['type'] = 'video';
 			}//adapt mp3
+			
+			if (config['type2'] == 'qq')
+			{
+				config['type'] = 'qq';
+			}//兼容以type2给出的qq类型
 			
 			//cover id to vid ,if file is undefined
 			if (config['id'] && !config['file'])
