@@ -67,13 +67,13 @@
 		private var selectedModeButton:Button;
 		private var modeStyleControl:ModeSelectControl;
 		private var colorPicker:ColorPicker;
-		[Embed(source="asset/cIcon.gif")]
+		[Embed(source="asset/cIcon.png")]
 		private var CommentIcon:Class;
 		private var commentIco:Bitmap;
 		
 		private var trackCommentButton:CheckBox;
 		
-		[Embed(source="asset/cycleIcon.gif")]
+		[Embed(source="asset/cycleIcon.png")]
 		private var CycleIcon:Class;
 		private var cycleIco:Bitmap;
 		
