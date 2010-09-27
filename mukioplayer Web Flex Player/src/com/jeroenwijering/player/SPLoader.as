@@ -320,6 +320,16 @@ public class SPLoader extends EventDispatcher {
 				plugins[i]['width'] = skin.stage.stageWidth;
 				plugins[i]['height'] = skin.stage.stageHeight;
 				plugins[i]['visible'] = true;
+				if (plugins[i]['position'] == 'morespecial') {
+					var rw:Number = skin.stage.stageWidth / Player.WIDTH;
+					var rh:Number = skin.stage.stageHeight / Player.HEIGHT;
+					var r:Number;
+					if(rw < rh)
+						r = rw;
+					else 
+						r = rh;
+					plugins[i]['x'] = (skin.stage.stageWidth - Player.WIDTH * r) / 2;
+				}
 			} 
 			else if (plugins[i]['position'] == 'special'){
 				plugins[i]['visible'] = false;
