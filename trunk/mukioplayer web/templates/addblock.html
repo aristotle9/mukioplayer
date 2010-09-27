@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+{% block content %}
+<h2 >{{ title }}</h2>
+<form id='addblock' method='post' action='/addblock' enctype="multipart/form-data">
+xml的url:<input type='text' name='path' size='50'/><br />
+或本地文件:<input type='file' name='localfile' size='50' />
+<input type='hidden' name='videoId' value='{{ video.key }}' />
+<div id='submit'>
+<input type='submit' value='添加' />
+</div>
+</form>
+{% endblock %}

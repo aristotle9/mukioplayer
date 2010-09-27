@@ -1,0 +1,3 @@
+User-agent: * Disallow: /
+
+#防备有良知的爬虫
