@@ -1,9 +1,6 @@
 package org.lala.models
 {
-	/**
-	 * 将qqvid转化为flv地址的类
-	 * @author ... 
-	 */
+
   public class QQTool extends Object
   {
 
@@ -80,7 +77,7 @@ package org.lala.models
       _loc_2 = 4294967295 + 1;
       _loc_3 = 10000 * 10000;
       _loc_4 = getTot(param1, _loc_2) % _loc_3;
-      return "http://v.video.qq.com/" + _loc_4 + "/" + param1 + ".flv";
+      return "http://113.142.10.144/" + _loc_4 + "/" + param1 + ".flv";
     }// end function
 
     public static function getFlvUrl(param1:String, param2:uint) : String
