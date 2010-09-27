@@ -1,0 +1,9 @@
+<form id='postchat' name='postchat' method='post' action='/postchat/' target='chatframe' onsubmit=''>
+<label for='text'>*内容:(500Byte)</label>
+<textarea name='text' rows='10' cols='50' {% if not user %}disabled='disabled'{% endif %}>{% if not user %}登录后发表评论{% endif %}</textarea>
+<input type='hidden' name='articleId' value='{{ art.key }}'/>
+<input type='hidden'name='parentId' value='' />
+<div id='submit'>
+<input type='submit' value='发布' {% if not user %}disabled='disabled'{% endif %} />
+</div>
+</form>

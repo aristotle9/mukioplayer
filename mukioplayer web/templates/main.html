@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% if title %}
+{{ title }}
+{% else %}
+主题列表
+{% endif %}
+ - Mikio</title>
+<link href='/main.css' type='text/css' rel='stylesheet' title='' />
+</head>
+<body>
+<div id='navigator'>
+<ul>
+<li><a href='/#'>首页</a></li>
+{% for i in items %}
+{% if iscls %}
+	{% ifequal cls forloop.counter0 %}
+	<li>{{ i }}</li>
+	{% else %}
+	<li><a href='/item/{{ forloop.counter0 }}/#'>{{ i }}</a></li>
+	{% endifequal %}
+{% else %}
+	<li><a href='/item/{{ forloop.counter0 }}/#'>{{ i }}</a></li>
+{% endif %}
+{% endfor %}
+</ul>
+<div id='login_logout'>
+{% if user %}
+您好 {% if not edit %}<a href='/userlist/{{ user.email }}/#'>{{ user.nickname }}</a>{% else %}{{ user.nickname }}{% endif %}  <a href='/post.php#'>发布主题</a>  <a href='{{log_in_out_url}}'>注销</a>
+{% else %}
+您尚未登录 <a href='{{log_in_out_url}}'>登录</a>
+{% endif %}
+</div>
+<div class='clear'></div>
+</div>
+<div id='content'>
+{% block content %}{% endblock %}
+<div class='clear'></div>
+</div>
+
+</body>
+</html>
