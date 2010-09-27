@@ -198,10 +198,12 @@
 		}
 		protected function resizeHandler(evt:CommentViewEvent):void
 		{
-//			Width = evt.data.w;
-//			Height = evt.data.h;
-			//_stage.scaleY = evt.data.h / Height;
-			_stage.scaleY = _stage.scaleX = evt.data.w / Width;
+			var rw:Number = evt.data.w / Width;
+			var rh:Number = evt.data.h / Height;
+			if(rw < rh)
+				_stage.scaleY = _stage.scaleX = rw;
+			else 
+				_stage.scaleY = _stage.scaleX = rh;
 		}
 		protected function findPos(s:Number,arr:Array,name:String):int
 		{
