@@ -41,10 +41,10 @@ package org.lala.components
 		private var formlyt:Form;
 		
 		private var styleArr:Array = [
-		{label:'normal',data:'normal'},
-		{label:'loud',data:'loud'},
-		{label:'think',data:'think'},
-		{label:'subtitle',data:'subtitle'}
+		{label:'普通',data:'normal'},
+		{label:'大喊',data:'loud'},
+		{label:'思考',data:'think'},
+		{label:'底端字幕',data:'subtitle'}
 		];
 		private var styleCb:ComboBox;
 		
@@ -57,9 +57,9 @@ package org.lala.components
 		private var colorCpk:fl.controls.ColorPicker;
 		
 		private var sizeArr:Array = [
-		{label:'normal',data:25},
-		{label:'big',data:37},
-		{label:'small',data:15}
+		{label:'正常',data:25},
+		{label:'大',data:37},
+		{label:'小',data:15}
 		];
 		
 		//font style
@@ -79,20 +79,20 @@ package org.lala.components
 		
 		//in and out effect
 		private var inEffectArr:Array = [
-		{label:'none',data:'normal'},
-		{label:'random',data:'random'},
-		{label:'fade',data:'fade'},
-		{label:'fly',data:'fly'},
+		{label:'无',data:'normal'},
+		{label:'随机',data:'random'},
+		{label:'渐显',data:'fade'},
+		{label:'飞行',data:'fly'},
 		];
 		private var inEffectCb:ComboBox;
 		private var inEffectSld:Slider;
 		private var inEffectLb:Label;//标签
 		
 		private var outEffectArr:Array = [
-		{label:'none',data:'normal'},
-		{label:'random',data:'random'},
-		{label:'fade',data:'fade'},
-		{label:'fly',data:'fly'},
+		{label:'无',data:'normal'},
+		{label:'随机',data:'random'},
+		{label:'渐隐',data:'fade'},
+		{label:'飞行',data:'fly'},
 		];
 		private var outEffectCb:ComboBox;
 		private var outEffectSld:Slider;
@@ -110,7 +110,7 @@ package org.lala.components
 		private function init():void
 		{
 			formlyt = new Form();
-			formlyt.formHeading = 'Try Something Different';
+			formlyt.formHeading = 'ZOOME弹幕设计面板';
 			formlyt.horizontalGap = 30;
 			formlyt.autoSize = true;
 			formlyt.labelAlign = FormLayoutStyle.RIGHT;
@@ -130,12 +130,13 @@ package org.lala.components
 			//command input
 			commandIpt = new TextInput();
 			commandIpt.setSize(190, 20);
-			commandIpt.text = 'not available';
+			commandIpt.text = '不可用';
 			commandIpt.enabled = false;
 			
 			//color picker
 			colorCpk = new fl.controls.ColorPicker();
-			colorCpk.selectedColor = 0xFFFFFF;
+			//colorCpk.selectedColor = 0xFFFFFF;
+			colorCpk.selectedColor = 0;
 			
 			//size options
 			sizeCb = new ComboBox();
@@ -168,6 +169,7 @@ package org.lala.components
 			opacitySld.minimum = 0;
 			opacitySld.snapInterval = 10;
 			opacitySld.liveDragging = true;
+			opacitySld.value = 40;
 			opacitySld.addEventListener(SliderEvent.CHANGE, opacitySldUpdateHandler);
 			
 			opacityLb = new Label();
@@ -234,7 +236,7 @@ package org.lala.components
 			
 			//submit button
 			sendBt = new Button();
-			sendBt.label = 'Send';
+			sendBt.label = '发送';
 			sendBt.setSize(40, 20);
 			sendBt.addEventListener(MouseEvent.CLICK, sendPopoCommentHandler);
 			
@@ -252,18 +254,18 @@ package org.lala.components
 			posLb.text = 'position';
 			
 			var formData:Array = [
-			{label:'Style',items:[styleCb,posLb]},
-			{label:'Message',items:commentIpt},
-			{label:'Command',items:[commandIpt,sendBt]},
-			{label:'Color',items:colorCpk},
-			{label:'Size',items:sizeCb},
-			{label:'fStyle',items:[boldBt,italicBt,underlineBt]},
-			{label:'Opacity',items:[opacitySld,opacityLb]},
-			{label:'Duration',items:[durationSld,durationLb]},
+			{label:'气泡风格',items:[styleCb,posLb]},
+			{label:'内容',items:commentIpt},
+			{label:'命令',items:[commandIpt,sendBt]},
+			{label:'颜色',items:colorCpk},
+			{label:'字号',items:sizeCb},
+			{label:'文字格式',items:[boldBt,italicBt,underlineBt]},
+			{label:'背景透明度',items:[opacitySld,opacityLb]},
+			{label:'停留时间',items:[durationSld,durationLb]},
 			//{label:'Effects',items:cps},
-			{label:'in',items:[inEffectCb,inEffectSld,inEffectLb]},
-			{label:'out',items:[outEffectCb,outEffectSld,outEffectLb]},
-			{label:'Typing', items:lupinCkb },
+			{label:'进入效果',items:[inEffectCb,inEffectSld,inEffectLb]},
+			{label:'退出效果',items:[outEffectCb,outEffectSld,outEffectLb]},
+			{label:'打字效果', items:lupinCkb },
 			];
 			
 			formlyt.dataSource = formData;
@@ -421,10 +423,10 @@ package org.lala.components
 		{
 			if (spotter.x == 0 || spotter.y == 0 || text == '')
 			{
-				commandIpt.text = '发射前要装弹并瞄准';
+				commandIpt.text = '拖动定位器到屏幕位置,填写内容发送';
 				return;
 			}
-			commandIpt.text = 'not available';
+			commandIpt.text = '不可用';
 				
 			dispatchEvent(new CommentListViewEvent(CommentListViewEvent.POPOCOMMENTSEND,null));
 			commentIpt.text = '';
