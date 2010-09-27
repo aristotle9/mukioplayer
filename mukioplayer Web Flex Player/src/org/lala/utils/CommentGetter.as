@@ -264,6 +264,7 @@
 				var dat:XML = XML(evt.target.data);
 				//trace("evt.target.data : " + dat.descendants('chat').length());
 				parseComment(dat);
+				parseComment2(dat);
 			}
 			catch (e:Error)
 			{
