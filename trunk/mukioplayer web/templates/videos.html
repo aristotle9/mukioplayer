@@ -2,9 +2,10 @@
 {% block content %}
 <h3 id='headline'>{{ art.title|escape }}</h3>
 <div id='info'>
-	<span id='author'>{{ art.author.nickname }}</span>
+  <a href='/#'>主页</a>&gt;
+	<span id='classify'>{{ art.tagname }}</span>&gt;
 	<span id='date'>{{ art.postdate|date:"Y-m-d H:i:s" }}</span>
-	<span id='classify'>{{ art.tagname }}</span>
+	<span id='author'>{{ art.author.nickname }}</span> 投稿
 {% if links %}
 <select id='partials' onchange='location.href=this.options[this.selectedIndex].value;'>
 {% for l in links %}
