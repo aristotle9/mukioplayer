@@ -1,8 +1,8 @@
 body{font-size:12px;width:950px;margin:5px auto;color:#333;}
 img,a,ul,p,form,ol,div,h1,h2,h3,h4,h5,h6,li{margin:0;padding:0;}
 img{border:0;}
-a{text-decoration:none;color:#f20;}
-a:hover{text-decoration:underline;background-color:#eef;color:#f00;}
+a{text-decoration:none;color:#f20;border-width: 0 0 1px;border-style:solid;border-color:#ddf}
+a:hover{text-decoration:none;background-color:#eef;color:#f00;border-color:#f20}
 a:visited{color:#f52;}
 a:active{text-decoration:none;color:#855;}
 ol{padding-left:24px;}
@@ -16,7 +16,7 @@ border-radius:3px 3px 3px 3px;
 #navigator ul li.splitter{margin:0 0 0 1em;}
 #navigator ul li{display:inline;list-style-position:outside;float:left;list-style:none;margin:0 0 0 1em;height:14px;}
 * html #navigator ul li{padding:2px 0 0;line-height:12px;height:12px;font-size:12px}
-#login_logout{position:absolute;right:3px;top:0px;height:12px;width:200px;padding:0.3em 0.2em;text-align:right;}
+#login_logout{position:absolute;right:3px;top:0px;height:12px;width:auto;;padding:0.3em 0.2em;text-align:right;}
 /* article list */
 #content{margin:1em 0 0;}
 #content ul li{height:70px;width:378px;overflow:hidden;display:inline;float:left;list-style:none;list-style-position:outside;border-width:0 0 0px;border-style:solid;border-color:black;padding:0.2em 0.4em;}
