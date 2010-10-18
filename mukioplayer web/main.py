@@ -5,149 +5,34 @@
 # 时间:2010年4月12日
 # 最后更新:2010年9月27日
 ###############
+
+import re
+import urllib
+import urllib2
+
+from xml.sax.saxutils import escape
+from datetime import timedelta
+from datetime import datetime
+
 from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.api import users
+
 from models.article import Article
 from models.video import Video
 from models.chat import Chat
 from models.comment import Comment
 from models.cblock import CBlock
-from google.appengine.api import users
 
-from datetime import timedelta
-from datetime import datetime
-
-import random,re
-import os
-import urllib,urllib2
-from xml.sax.saxutils import escape
+from common.base import BaseRequestHandler,_404
+from common.tools import loginRequired,MukioTools
 
 _DEBUG = True
 PAGESIZE = 14
 
-#需求登录修饰器
-def loginRequired(func):
-  def wrapper(self, *args, **kw):
-    user = users.get_current_user()
-    if not user:
-      self.redirect(users.create_login_url(self.request.uri))
-    else:
-      func(self, *args, **kw)
-  return wrapper
-#一些工具
-class MukioTools():
-  namelist = [u'动画',u'音乐',u'游戏',u'娱乐',u'番影']
-  @staticmethod
-  def rndvid(n):
-    return ''.join(random.sample(list('acbdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),n))+''.join(random.sample(list('0123456789'),9))
-
-  @staticmethod
-  def tagname(n):
-    return MukioTools.namelist[n]
-
-  @staticmethod
-  def delete(lst):
-    for i in lst:
-      i.delete()
-
-  @staticmethod
-  def delete_video_by_key_name(keyname):
-    v = Video.get_by_key_name(keyname)
-    if v:
-      comments = v.comment_set
-      MukioTools.delete(comments)
-      cblocks = v.cblock_set
-      MukioTools.delete(cblocks)# 新,删永久xml
-
-      v.delete()
-
-  @staticmethod
-  def delete_comment_by_video_key_name(keyname):
-    v = Video.get_by_key_name(keyname)
-    if v:
-      comments = v.comment_set
-      MukioTools.delete(comments)
-
-  @staticmethod
-  def delete_permanent_comment_by_video_key_name(keyname):
-    v = Video.get_by_key_name(keyname)
-    if v:
-      cblocks = v.cblock_set
-      MukioTools.delete(cblocks)
-
-  @staticmethod
-  def delete_comment_by_video_key_name_without_author(keyname):
-    v = Video.get_by_key_name(keyname)
-    user = users.get_current_user()
-    if v and user:
-      comments = v.comment_set
-      for c in comments:
-        if c.author != user:
-          c.delete()
-
-  @staticmethod
-  def delete_comment_by_id(id):
-    c = Comment.get_by_id(id)
-    if c:
-      c.delete()
-
-  @staticmethod
-  def delete_article_by_key_name(keyname):
-    a = Article.get_by_key_name(keyname)
-    if a:
-      videos = a.video_set
-      for v in videos:
-        MukioTools.delete_video_by_key_name(v.key().name())
-
-      MukioTools.delete_chat_by_artkey_name(keyname)
-      a.delete()
-
-  @staticmethod
-  def delete_chat_by_artkey_name(keyname):
-    a = Article.get_by_key_name(keyname)
-    if a:
-      chats = a.chat_set
-      for c in chats:
-        MukioTools.delete_chat(c)
-
-  @staticmethod
-  def delete_chat(chat):
-    chatchildren = chat.chat_set
-    if chatchildren.count():
-      for c in chatchildren:
-        MukioTools.delete_chat(c)
-
-    chat.delete()
-
-  @staticmethod
-  def dt_from_str(s):
-    pt = re.compile(r'(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)\.(\d+)')
-    tp = pt.findall(s)[0]
-    ip = map(int,tp)
-    return datetime(ip[0],ip[1],ip[2],ip[3],ip[4],ip[5],ip[6])
 #以下正文
-############################################
-#基类
-class BaseRequestHandler(webapp.RequestHandler):
-
-  def render(self, template_name, template_values={}):
-
-    user = users.get_current_user()
-
-    if user:
-      log_in_out_url = users.create_logout_url(self.request.uri)
-    else:
-      log_in_out_url = users.create_login_url(self.request.path)
-
-    values = {'user': user,'items':MukioTools.namelist, 'log_in_out_url': log_in_out_url}
-    values.update(template_values)
-
-    directory = os.path.dirname(__file__)
-    path = os.path.join(directory, 'templates', template_name)
-
-    self.response.out.write(template.render(path, values, debug=_DEBUG))
 
 #主题发布页面
 class ArtPost(BaseRequestHandler):
@@ -747,7 +632,8 @@ app = webapp.WSGIApplication([('/post.php',ArtPost),
                               (r'/links/(.*)/(.*)/mukioplayer\.swf',ExternalLinkHandler),
                               (r'/addblock/(.*)/',AddBlockHandler),
                               ('/addblock',AddBlockHandler),
-                              (r'/(.*)/sixroom/',SixRoom)
+                              (r'/(.*)/sixroom/',SixRoom),
+                              (r'.*',_404)
                               ],debug=_DEBUG)
 
 if __name__ == '__main__':
