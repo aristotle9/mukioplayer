@@ -80,7 +80,7 @@ class AdminEdit(BaseRequestHandler):
       if video[3] != '0':
         for v in oldvideos:
           if v.keyname == video[3]:
-            if v.typ !='video' and v.typ !='sound' and v.keyname != video[2] and v.keyname != 'vid'+video[2]:
+            if (v.typ !='video' and v.typ !='sound' and v.keyname != video[2] and v.keyname != 'vid'+video[2]) or v.typ != video[1]:
               MukioTools.delete_video_by_key_name(v.keyname)
               try:
                 newvideo = Video(key_name = 'vid'+video[2],
