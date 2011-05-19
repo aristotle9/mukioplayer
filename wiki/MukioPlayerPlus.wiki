@@ -19,7 +19,7 @@
 = 设计正在进行中 =
 
 最近才起步
- * 四种界面布局:normal,wideScreen,fullScreen,fullScreen[in Browser],各种尺寸下都可以自由伸缩(全屏的不可以)
+ * 四种界面布局:normal,wideScreen,fullScreen,fullScreen(in Browser),各种尺寸下都可以自由伸缩(全屏的不可以)
  * JWPlayer v5.3
  * Flex SDK 4.1
  * 用户弹幕中的E3ScriptEngine
