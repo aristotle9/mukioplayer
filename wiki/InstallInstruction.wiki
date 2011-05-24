@@ -3,5 +3,8 @@
 
 = 确认Adobe Air是否已经安装 =
 
-先安装Air[http://get.adobe.com/air/]
-再双击mukioplayer.air文件(在mukioplayer.zip压缩文件中)
+系统没有安装Adobe Air的先安装 [http://get.adobe.com/air/ Air]
+
+再双击mukioplayer.air文件
+
+(在mukioplayer.zip压缩文件中)
