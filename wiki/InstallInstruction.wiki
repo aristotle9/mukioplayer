@@ -1,0 +1,7 @@
+#summary 安装桌面版MukioPlayer
+#labels Featured,Phase-Support,Phase-Requirements
+
+= 确认Adobe Air是否已经安装 =
+
+先安装Air[http://get.adobe.com/air/]
+再双击mukioplayer.air文件(在mukioplayer.zip压缩文件中)
