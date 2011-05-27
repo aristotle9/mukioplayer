@@ -1,0 +1,78 @@
+#summary 弹幕脚本说明
+
+= 脚本引擎 =
+
+脚本引擎来自[http://www.libspark.org/wiki/WikiStart/en SparkProject],为一日本开源组织
+
+脚本引擎支持ECMAScript3.0语法的一个子集
+
+包括:
+
+ * 变量
+ * 数组
+ * 对象和属性
+ * if
+ * for,while
+ * break,continue
+ * with
+
+未实现的举其几例:
+
+ * try/catch/finally
+ * for.. in
+ * new操作
+
+以上是脚本原作者说明.
+
+我在测试时发现:递归计算结果通常是不正确的,一般流程的程序大部分时间是正确的.
+
+测试结果:该脚本引擎能满足弹幕脚本的功能
+
+= 弹幕播放器API(暂定) =
+
+== Player ==
+
+Player包括了视频播放器的各种操作
+==== Player.play() ====
+播放
+==== Player.pause() ====
+暂停
+==== Player.seek(time) ====
+
+参数:time:Number
+
+跳转,time为跳转时间,单位为秒
+==== Player.time ====
+当前视频的时间,单位为秒
+
+== Display ==
+包括了舞台弹幕的操作
+=== 弹幕预览功能 ===
+一个脚本弹幕相当于多个非脚本弹幕,并且包括一些逻辑判断和计算
+
+==== Display.cmt(text,color,size,mode) ====
+==== Display.bili(text,x,y,...) ====
+==== Display.zoome(...) ====
+
+=== 字幕生成功能 ===
+生成一个完全自定义的弹幕,操作见 ScriptText
+
+==== Display.createText(name,text) ====
+==== Display.text(name) ====
+==== Display.removeText(name) ====
+==== Display.clean() ====
+
+== ScriptText ==
+为脚本生成的字幕对象,对该对象的属性修改以及方法的调用为自定义弹幕的基本操作
+
+=== 属性 ===
+==== text ====
+==== x ====
+==== y ====
+==== alpha ====
+==== color ====
+==== size ====
+...
+=== 方法 ===
+==== show() ====
+==== hide() ====
