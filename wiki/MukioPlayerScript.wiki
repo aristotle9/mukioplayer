@@ -66,23 +66,91 @@ Player包括了视频播放器的各种操作
 ==== Player.time ====
 当前视频的时间,单位为秒
 
-== Display ==
+== Display,D ==
 包括了舞台弹幕的操作
+=== 方法 ===
 === 弹幕预览功能 ===
 一个脚本弹幕相当于多个非脚本弹幕,并且包括一些逻辑判断和计算
 
-==== Display.cmt(text,color,size,mode) ====
-==== Display.bili(text,x,y,...) ====
+==== Displaycmt(text,color=0xffffff,size='middle',mode='toLeft') ====
+普通的三式弹幕预览
+
+参数: text 文本 
+
+参数: color 颜色
+
+参数: size 字号,small,middle,big
+
+参数: mode 模式,toLeft,top,bottom
+==== Display.bili(text,x=0,y=0,color=0xffffff,size=25,rZ=0,rY=0,duration=4.5,inAlpha=1,outAlpha=1) ====
+普通版本的Bili弹幕预览
+
+参数: text 文本 
+
+参数: x x点坐标
+
+参数: y y点坐标
+
+参数: color 颜色
+
+参数: size 字号
+
+参数: rZ 旋转值
+
+参数: rY 翻转值
+
+参数: duration 总时间
+
+参数: inAlpha 起始透明
+
+参数: outAlpha 结束透明
+==== Display.bili2(text,x=0,y=0,color=0xffffff,size=25,rZ=0,rY=0,duration=4.5,inAlpha=1,outAlpha=1,toX=0,toY=0,mDuration=500,delay=0) ====
+增强版本的Bili弹幕模式预览
+
+参数: text 文本 
+
+参数: x x点坐标
+
+参数: y y点坐标
+
+参数: color 颜色
+
+参数: size 字号
+
+参数: rZ 旋转值
+
+参数: rY 翻转值
+
+参数: duration 总时间
+
+参数: inAlpha 起始透明
+
+参数: outAlpha 结束透明
+
+参数: toX 目标x点坐标
+
+参数: toY 目标y点坐标
+
+参数: mDuration 移动持续时间,毫秒 
+
+参数: delay 移动前停留,毫秒
 ==== Display.zoome(...) ====
-
+未完成
 === 字幕生成功能 ===
-生成一个完全自定义的弹幕,操作见 ScriptText
-
+生成一个完全自定义的弹幕文本对象,操作见 ScriptText
 ==== Display.createText(name,text) ====
+创建一个名称为name的文本对象,内容为text
 ==== Display.text(name) ====
+取得舞台上名称为name的文本对象的引用
 ==== Display.removeText(name) ====
+销毁舞台上名称为name的文本对象
 ==== Display.clean() ====
-
+销毁舞台上所有文本对象,并把名称库清空
+=== 属性 ===
+==== Display.width ====
+弹幕舞台宽度
+==== Display.height ====
+弹幕舞台高度
 == ScriptText ==
 为脚本生成的字幕对象,对该对象的属性修改以及方法的调用为自定义弹幕的基本操作
 
@@ -107,17 +175,27 @@ Player包括了视频播放器的各种操作
 
 参数:complete 动作完成后执行的函数,默认为null
 
-== T ==
+例子:
+{{{
+var t = Display.createText('t','Text');
+t.show();
+t.moveTo(200,200,1,function(){t.moveTo(200,400);});
+//创建弹幕
+//弹幕在(0,0)显示
+//弹幕在1秒内移动到200,200,接着在1秒内移动到200,400
+}}}
+
+== Toolkit,T ==
 为脚本弹幕的常用工具集合
 === 方法 ===
-==== hue(value) ====
+==== T.hue(value) ====
 将0-360的值映射到色相环上,其中,
  * 0 -> 0x0000ff 
  * 120 -> 0xff0000
  * 240 -> 0x00ff00
 <font color="#0000ff">■</font><font color="#8f00ef">■</font><font color="#9f00df">■</font><font color="#af00cf">■</font><font color="#bf00bf">■</font><font color="#cf00af">■</font><font color="#df009f">■</font><font color="#ef008f">■</font><font color="#ff0000">■</font><font color="#ef8f00">■</font><font color="#df9f00">■</font><font color="#cfaf00">■</font><font color="#bfbf00">■</font><font color="#afcf00">■</font><font color="#9fdf00">■</font><font color="#8fef00">■</font><font color="#00ff00">■</font><font color="#00ef8f">■</font><font color="#00df9f">■</font><font color="#00cfaf">■</font><font color="#00bfbf">■</font><font color="#00afcf">■</font><font color="#009fdf">■</font><font color="#008fef">■</font>
 
-==== delay(time=1000)(foo) ====
+==== T.delay(time=1000)(foo) ====
 延迟执行函数
 
 参数:time,延迟时间,毫秒,默认值1000,允许范围0-15*1000
@@ -132,7 +210,7 @@ T.delay(500)(function(){p(2);});
 //2
 //1
 }}}
-==== repeat(n=1)(foo) ====
+==== T.repeat(n=1)(foo) ====
 重复执行函数.存在的理由?比for好用一点??
 
 参数:n,重复次数,默认值1
