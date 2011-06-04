@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:jw="com.longtailvideo.jwplayer.player.*"
+               xmlns:mk="org.lala.components.*" applicationComplete="application1_applicationCompleteHandler(event)" backgroundColor.fullScreen="#000000" backgroundColor.normal="#FFFFFF" height.normal="100%" width.normal="100%" backgroundColor.wideScreen="#FFFFFF" height.wideScreen="100%" width.wideScreen="100%">
+    <fx:Style source="MukioPlayerPlus.css"/>
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="fullScreen"/>
+        <s:State name="wideScreen"/>
+    </s:states>
+    <fx:Metadata>
+        [SWF(backgroundColor="0x0", width="950", height="445")]
+    </fx:Metadata>
+    <fx:Declarations>
+        <fx:String id='version'>2.000</fx:String>
+        <fx:Array id="cmtColumns">
+            <mx:DataGridColumn headerText="时间" dataField="stime" width="45" labelFunction="digit"/>
+            <mx:DataGridColumn headerText="评论({commentView.provider.commentResource.length}条)" dataField="text"  minWidth="150" minWidth.wideScreen="110" labelFunction="textTrim"/>
+            <mx:DataGridColumn dataField="date" headerText="发送日期" includeIn="normal" width="130"/>
+        </fx:Array>
+    </fx:Declarations>
+    <fx:Script>
+        <![CDATA[
+            import com.longtailvideo.jwplayer.player.Player;
+            import com.longtailvideo.jwplayer.utils.Strings;
+            
+            import mx.controls.Alert;
+            import mx.events.FlexEvent;
+            import mx.events.ResizeEvent;
+            
+            import org.lala.components.skins.IconButtonSkin;
+            import org.lala.event.EventBus;
+            import org.lala.event.MukioEvent;
+            import org.lala.net.CommentServer;
+            import org.lala.plugins.CommentView;
+            import org.lala.scriptapis.ScriptDisplayer;
+            import org.lala.scriptapis.ScriptPlayer;
+            import org.lala.scriptapis.ScriptRegister;
+            import org.lala.scriptapis.ScriptTool;
+            import org.lala.utils.CommentDataParser;
+            import org.lala.utils.CommentXMLConfig;
+            import org.lala.utils.MukioTaskQueue;
+            import org.lala.utils.PlayerTool;
+            
+            private var savedState:String = 'normal';
+            private var isInnerFullScreenState:Boolean = false;
+            private var player:Player;
+            /** 播放器小助手 **/
+            private var playerTool:PlayerTool;
+            [Bindable]
+            /** 弹幕播放器插件类的引用 **/
+            private var commentView:CommentView = CommentView.getInstance();
+            /** 服务器端配置 **/
+            private var conf:CommentXMLConfig;
+            /** 弹幕报务器接口 **/
+            private var server:CommentServer;
+            /**
+             * 播放器的初始化完成
+             * JWPlayer初始化过程复杂(略去),在这个事件里表示JWPlayer的各部件已经可以使用了
+             * 接下来是用播放器播放视频和让插件加载弹幕
+             * 弹幕的输入和发送类随着界面的建成而实例化
+             * flash参数的说明:
+             * 可以按照标准的JWPlayer嵌入方法来写html参数
+             * SinaMediaProvider是个多段视频提供者.具体使用参见模型测试的代码案例
+             * JWPlayer会自动在playerReady事件之前使用该参数初始化
+             * 可以在playerReady事件中重新定向播放
+             **/
+            private function playerReadyHandler(event:Event):void
+            {
+                log('播放器初始化完成.');
+                player = playerContainer.player;
+                playerTool = new PlayerTool(player);
+                conf = new CommentXMLConfig(root);
+                
+                player.stop();
+                playerContainer.enabled = false;
+
+                var tasks:MukioTaskQueue = new MukioTaskQueue();
+                tasks.addEventListener(Event.COMPLETE,tasksCompleteHandler);
+                tasks.beginLoad(conf.getConfURL(),confLoaded);
+                // ...
+                log('开始加载XML配置.');
+                tasks.work();
+            }
+            /** 加载配置xml处理函数 **/
+            private function confLoaded(data:*):void
+            {
+                log("配置加载成功.");
+                conf.init(new XML(data));
+                server.conf = conf;
+            }
+            /** 初始化脚本引擎 **/
+            private function initialScriptEngine():void
+            {
+                //接口
+                var scriptPlayer:ScriptPlayer = new ScriptPlayer(player);
+                var scriptDisplayer:ScriptDisplayer = new ScriptDisplayer();
+                var scriptTool:ScriptTool = new ScriptTool();
+                var p:Function = function(s:*):void
+                {
+                    EventBus.getInstance().log(String(s));
+                }
+                MukioEngine.log = p;
+                //为引擎添加一些全局变量,为弹幕脚本的API
+                MukioEngine.setParam('Player',scriptPlayer);
+                MukioEngine.setParam('Display',scriptDisplayer);
+                MukioEngine.setParam('D',scriptDisplayer);
+                MukioEngine.setParam('Toolkit',scriptTool);
+                MukioEngine.setParam('T',scriptTool);
+                MukioEngine.setParam('p',p);
+                MukioEngine.setParam('print',p);
+//                MukioEngine.setParam('alert',function(s:*):void{Alert.show(String(s),'alert:');});
+                log("脚本引擎初始化完成.");
+                
+            }
+            private function tasksCompleteHandler(event:Event):void
+            {
+                log("加载工作结束.");
+                if(!conf.initialized)
+                {
+                    log("配置加载失败.");
+                }
+                else
+                {
+                    initialScriptEngine();                
+                    log("处理播放参数.");
+                    routeAndPlay();
+                    playerContainer.enabled = true;
+                }
+            }
+            private function log(content:String):void
+            {
+                EventBus.getInstance().log(content);
+            }
+            private function routeAndPlay():void
+            {
+                var params:Object = systemManager.loaderInfo.parameters;
+                if(params.h || conf.isOnHost)
+                {
+                    /** 有h参数时,转向自定义路由 **/
+                    log("使用自带的参数处理方案.");
+                    routeHost(params);
+                }
+                else
+                {
+                    log("使用A/B站的参数处理方案.");
+                    routeTest(params);
+                }
+            }
+            /** flash参数路由测试,使用两站参数 **/
+            private function routeTest(params:Object):void
+            {
+                var bid:String = '';
+                if(params['qid'])
+                {
+                    playerTool.loadQqVideo(params['qid']);
+                    bid = params['qid'];
+                }
+                else if(params['vid'])
+                {
+                    playerTool.loadSinaVideo(params['vid']);
+                    bid = params['vid'];
+                }
+                else if(params['ykid'])
+                {
+                    playerTool.loadYoukuVideo(params['ykid']);
+                    bid = params['ykid'];
+                }
+                
+                if(bid != '')
+                {
+                    playerTool.loadBiliFile(bid);
+                    server.cid = bid;
+                    return;
+                }
+                
+                if(params['id'])
+                {
+                    if(params['type2'])
+                    {
+                        if(params['type2'] == 'qq')
+                        {
+                            playerTool.loadQqVideo(params['id']);
+                        }
+                        else if(params['type2'] == 'youku')
+                        {
+                            playerTool.loadYoukuVideo(params['id']);
+                        }
+                    }
+                    else
+                    {
+                        playerTool.loadSinaVideo(params['id']);
+                    }
+                    if(params['cid'])
+                    {
+                        playerTool.loadAcfunFile(params['cid']);
+                        server.cid = params['cid'];
+                    }
+                    else
+                    {
+                        playerTool.loadAcfunFile(params['id']);
+                        server.cid = params['id'];
+                    }
+                }
+            }
+            /** 自己服务器上的路由,在产品阶段使用 **/
+            private function routeHost(params:Object):void
+            {
+                var cid:String = params.cid?params.cid:params.id?params.id:params.vid;
+                if(params.file)
+                {
+                    if(params.type == 'video' || params.type == null)
+                    {
+                        playerTool.loadSingleFile(params.file);
+                    }
+                }
+                else if(params.type2)
+                {
+                    if(params.type2 == 'qq')
+                    {
+                        playerTool.loadQqVideo(params.id);
+                    }
+                    else if(params.type2 == 'youku')
+                    {
+                        playerTool.loadYoukuVideo(params.id);
+                    }
+                }
+                else if(params.type)
+                {
+                    if(params.type == 'qq')
+                    {
+                        playerTool.loadQqVideo(params.id);
+                    }
+                    else if(params.type == 'youku')
+                    {
+                        playerTool.loadYoukuVideo(params.id);
+                    }
+                }
+                else if(params.id)
+                {
+                    playerTool.loadSinaVideo(params.id);
+                }
+                else if(params.vid)
+                {
+                    playerTool.loadSinaVideo(params.vid);
+                }
+                server.cid = cid;
+                /** 用户标识可以使用user值传入 **/
+                if(params.user)
+                {
+                    server.user = params.user;
+                }
+                //配置在路由时已近加载完成
+                if(params.cfile)
+                {
+                    playerTool.loadCmtFile(params.cfile);
+                }
+                else if(String(conf.gateway).length)
+                {
+                    playerTool.loadCmtData(server);  
+                }
+                else
+                {
+                    playerTool.loadCmtFile(conf.getCommentFileURL(cid));
+                }
+            }
+            /** 应用程序初始化 **/
+            private function application1_applicationCompleteHandler(event:FlexEvent):void
+            {
+                commentView.addEventListener("innerFullScreen",innerFullScreenHandler);
+                commentView.version = version;
+                server = new CommentServer();
+                /** 全屏情况处理,更改state **/
+                stage.addEventListener( FullScreenEvent.FULL_SCREEN, fullScreenHandler );
+                log('应用程序初始化完成,等待播放器初始化.');
+            }
+            /** 处理播放器的工具条上的隐藏弹幕界面按钮事件 **/
+            private function innerFullScreenHandler(event:Event):void
+            {
+                if(stage.displayState == 'fullScreen')
+                {
+                    return;
+                }
+                if(!isInnerFullScreenState)
+                {
+                    savedState = currentState;
+                    currentState = 'fullScreen';
+                }
+                else
+                {
+                    currentState = savedState;
+                }
+                isInnerFullScreenState = !isInnerFullScreenState;
+            }
+            /** 
+             * 全屏处理:fullScreen状态是播放器填满整个flash插件,全屏则是flash插件填满屏幕
+             * 其实是两个不同的状态,但是共用一个state,而使用isInnerFullScreenState来区分
+             ***/
+            private function fullScreenHandler(event:FullScreenEvent):void
+            {
+                if(isInnerFullScreenState)
+                {
+                    return;
+                }
+                if(stage.displayState == 'fullScreen')
+                {
+                    savedState = currentState;
+                    currentState = 'fullScreen';
+                }
+                else
+                {
+                    currentState = savedState;
+                }
+            }
+            /** 辅助函数:LabelFunction **/
+            private function digit(item:Object, column:DataGridColumn):String
+            {
+                return Strings.digits(item['stime']);
+            }
+            /** 辅助函数:LabelFunction **/
+            private function textTrim(item:Object, column:DataGridColumn):String
+            {
+                return CommentDataParser.cut((item['text']));
+            }
+        ]]>
+    </fx:Script>
+    <s:Group height.fullScreen="100%" width.fullScreen="100%" bottom.normal="0" left.normal="0" right.normal="0" top.normal="0" bottom.wideScreen="0" left.wideScreen="0" right.wideScreen="0" top.wideScreen="0">
+        <s:layout>
+            <s:HorizontalLayout gap.normal="0" gap.wideScreen="0"/>
+        </s:layout>
+        <s:Group height.fullScreen="100%" width.fullScreen="100%" height.normal="100%" width.normal="100%" height.wideScreen="100%" width.wideScreen="100%">
+            <s:layout>
+                <s:VerticalLayout gap="1" paddingTop="0" paddingBottom="0"/>
+            </s:layout>
+            <s:BorderContainer backgroundColor="#000000" borderWeight="0" height.normal="100%" width.normal="100%" borderVisible.normal="false" backgroundColor.normal="#000000" borderVisible.fullScreen="false" backgroundColor.wideScreen="#000000" borderVisible.wideScreen="false" height.wideScreen="100%" width.wideScreen="100%" height.fullScreen="100%" width.fullScreen="100%">
+                <jw:JWPlayer playerReady="playerReadyHandler(event)" id='playerContainer' top.normal="0" bottom.fullScreen="0" left.fullScreen="0" right.fullScreen="0" top.fullScreen="0" height.normal="100%" width.normal="100%" chromeColor.normal="#E00A0A" left.normal="0" chromeColor.wideScreen="#E00A0A" height.wideScreen="100%" left.wideScreen="0" top.wideScreen="0" width.wideScreen="100%"/>
+            </s:BorderContainer>
+            <s:HGroup excludeFrom="fullScreen" width="100%" gap="1">
+                <mk:NormalCommentInput id="normalCommentInput" width="100%" height="22" />
+                <mk:IconButton id="wideToggleBt" icon="@Embed(source='assets/wideScreenIcon.png')" right="0" click="currentState=currentState=='wideScreen'?'normal':'wideScreen'" width="26" height="22" skinClass="org.lala.components.skins.IconButtonSkin"/>
+            </s:HGroup>
+        </s:Group>
+        <mx:TabNavigator height="100%" width="100%" tabStyleName="boldStyle" excludeFrom="fullScreen" paddingTop="0" borderVisible="false" width.normal="410" width.wideScreen="166" right="0" top="0">
+            <s:NavigatorContent label="弹幕" width="100%" height="100%" icon="@Embed(source='assets/listIcon.png')">
+                <mk:CmtDataGrid id="cmtTable" headerStyleName="boldStyle" x="0" y="0" width="100%" height="100%" horizontalScrollPolicy.wideScreen="on" dataProvider="{commentView.provider.commentResource}" columns="{cmtColumns}" />
+            </s:NavigatorContent>
+            <mx:Accordion label="配置" headerStyleName="boldStyle" icon="@Embed(source='assets/configIcon.png')">
+                <s:NavigatorContent label="过滤配置" width="100%" height="100%">
+                    <mk:CommentFilterInput id="commentFilterInput" enabled="{currentState=='normal'}"/>
+                </s:NavigatorContent>
+                <s:NavigatorContent label="弹幕配置" width="100%" height="100%">
+                    <mk:CommentConfigInput id="commentConfigInput" enabled="{currentState=='normal'}"/>
+                </s:NavigatorContent>
+            </mx:Accordion>
+            <mx:Accordion label="高级" headerStyleName="boldStyle" icon="@Embed(source='assets/scriptIcon.png')">
+                <s:NavigatorContent label="zoome字幕" width="100%" height="100%">
+                    <mk:ZoomeCommentInput id="zoomeCommentInput" enabled="{currentState=='normal'}"/>
+                </s:NavigatorContent>
+                <s:NavigatorContent label="bili字幕" width="100%" height="100%">
+                    <mk:FixedPosCommentInput id="fixedPosCommentInput" enabled="{currentState=='normal'}"/>
+                </s:NavigatorContent>
+                <s:NavigatorContent label="脚本试验" width="100%" height="100%">
+                    <mk:ScriptCommentInput id="scriptCommentInput" enabled="{currentState=='normal'}"/>
+                </s:NavigatorContent>
+            </mx:Accordion>
+        </mx:TabNavigator>
+    </s:Group>
+</s:Application>
+

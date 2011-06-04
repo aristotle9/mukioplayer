@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" 
+         xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" creationComplete="group1_creationCompleteHandler(event)">
+    <s:layout>
+        <s:VerticalLayout/>
+    </s:layout>
+    <fx:Declarations>
+        <!--普通弹幕设置界面-->
+        <s:Panel id="panel" title="配置文本" width="250" height="95">
+            <s:layout>
+                <s:VerticalLayout gap="2" paddingTop="5" paddingRight="5" paddingLeft="5" paddingBottom="5" horizontalAlign="right"/>
+            </s:layout>
+            <s:TextInput id="outputText" width="100%" toolTip="建议使用复制+粘贴" />
+            <s:HGroup>
+                <s:Button id="setFromText" click="config.fromString(outputText.text);PopUpManager.removePopUp(panel);config.save();" label="设置"/>
+                <s:Button id="closeBt" click="PopUpManager.removePopUp(panel);" right="0" height="22" label="关闭"/>
+            </s:HGroup>
+        </s:Panel>
+    </fx:Declarations>
+    <fx:Script>
+        <![CDATA[
+            import mx.collections.ArrayCollection;
+            import mx.events.FlexEvent;
+            import mx.managers.PopUpManager;
+            
+            import org.lala.utils.CommentConfig;
+            
+            [Bindable]
+            private var config:CommentConfig = CommentConfig.getInstance();
+            [Bindable]
+            private var fontNames:ArrayCollection=new ArrayCollection();
+            protected function getText_clickHandler(event:MouseEvent):void
+            {
+                PopUpManager.addPopUp(panel,this,true);
+                PopUpManager.centerPopUp(panel);
+                outputText.text = config.toString();
+                outputText.selectAll();
+                outputText.setFocus();
+            }
+
+            protected function group1_creationCompleteHandler(event:FlexEvent):void
+            {
+                config.addEventListener('fontChange',fontChnageHandler);
+                for each(var f:Font in Font.enumerateFonts(true))
+                {
+                    fontNames.addItem({'label':f.fontName});
+                    if(f.fontName == config.font)
+                    {
+                        fontLst.selectedIndex = fontNames.length - 1;
+                    }
+                }
+            }
+            
+            private function fontChnageHandler(event:Event):void
+            {
+                for(var i:int = 0; i < fontNames.length; i ++)
+                {
+                    if(fontNames[i].label == config.font)
+                    {
+                        fontLst.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        ]]>
+    </fx:Script>
+    <mx:Form width="100%" height="100%">
+        <mx:FormItem label="字体">
+            <s:HGroup>
+                <s:DropDownList id="fontLst" dataProvider="{fontNames}" labelField="label" selectedIndex="0" change="config.font=fontLst.selectedItem.label;config.save();" width="160"/>
+                <s:CheckBox id="isChangeUIFontCb" selected="@{config.isChangeUIFont}" label="应用到界面字体" toolTip="界面也使用相同的字体" change="config.save();"/>                
+            </s:HGroup>
+        </mx:FormItem>
+        <mx:FormItem label="滤镜风格">
+            <s:HGroup>
+                <s:DropDownList id="filterLst" dataProvider="{config.filtersArr}" labelField="label" selectedIndex="@{config.filterIndex}" change="config.save();"/>
+                <s:CheckBox id="boldCb" label="粗体" selected="@{config.bold}" change="config.save();" />             
+            </s:HGroup>
+        </mx:FormItem>
+        <mx:FormItem label="透明调节">
+            <mx:Slider id="alphaSld" height="22" maximum="1" minimum="0" snapInterval="0.05" change="config.save();" value="@{config.alpha}"/>
+        </mx:FormItem>
+        <mx:FormItem label="速度调节">
+            <mx:Slider id="speedeSld" maximum="2" minimum="0.1" snapInterval="0.1" value="@{config.speede}" change="config.save();" height="22" />
+        </mx:FormItem>
+        <mx:FormItem label="字号缩放">
+            <mx:Slider id="sizeeSld" minimum="0.1" maximum="2" snapInterval="0.1" value="@{config.sizee}" change="config.save();" height="22" />
+        </mx:FormItem>
+        <mx:FormItem label="脚本配置">
+            <s:CheckBox id="isPlayerControlApiEnableCb" label="启用播放器控制API" toolTip="影响的行为:Player.play(),pause(),seek()" selected="@{config.isPlayerControlApiEnable}" change="config.save();" />
+        </mx:FormItem>
+        <s:HGroup horizontalAlign="right">
+            <s:Button id="getText" label="文本界面" click="getText_clickHandler(event)" />
+            <s:Button label="设为默认值" click="config.reset();config.save();" />
+        </s:HGroup>
+    </mx:Form>
+</s:Group>
