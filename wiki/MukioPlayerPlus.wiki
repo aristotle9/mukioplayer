@@ -23,4 +23,3 @@
  * JWPlayer v5.3
  * Flex SDK 4.1
  * 用户弹幕中的E3ScriptEngine
-[http://mukioplayer.googlecode.com/svn/wiki/imgs/recent-works.jpg]
