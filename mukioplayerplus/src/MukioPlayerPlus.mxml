@@ -37,7 +37,6 @@
             import org.lala.plugins.CommentView;
             import org.lala.scriptapis.ScriptDisplayer;
             import org.lala.scriptapis.ScriptPlayer;
-            import org.lala.scriptapis.ScriptRegister;
             import org.lala.scriptapis.ScriptTool;
             import org.lala.utils.CommentDataParser;
             import org.lala.utils.CommentXMLConfig;
