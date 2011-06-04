@@ -78,6 +78,7 @@ package org.lala.media
             else
             {
     			//开始加载视频描述文件,sina api
+                status = 'prepare';
                 var xmlLoader:URLLoader = new URLLoader();
                 xmlLoader.addEventListener(Event.COMPLETE, xmlLoadHandler);
                 xmlLoader.addEventListener(IOErrorEvent.IO_ERROR,ioErrorHandler);
@@ -230,6 +231,10 @@ package org.lala.media
         }
 		/** Resume playback of the item. **/
 		public override function play():void {
+            if (status == 'prepare')
+            {
+                return;
+            }
             if (status == 'play')
             {
                 return;
@@ -254,6 +259,10 @@ package org.lala.media
 		
 		/** Pause playback of the item. **/
 		public override function pause():void {
+            if (status == 'prepare')
+            {
+                return;
+            }
             if (status == 'pause')
             {
                 return;
@@ -274,6 +283,10 @@ package org.lala.media
 		 * @param pos	The position in seconds.
 		 **/
 		public override function seek(pos:Number):void {
+            if (status == 'prepare')
+            {
+                return;
+            }
 			_position = pos;
             //			super.seek(pos);
             //			pos = Math.floor(pos);
@@ -426,6 +439,10 @@ package org.lala.media
         }
 		/** Stop playing and loading the item. **/
 		public override function stop():void {
+            if (status == 'prepare')
+            {
+                return;
+            }
             if (state == 'pause' || state=='ready')
             {
                 return;
