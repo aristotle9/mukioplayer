@@ -179,6 +179,7 @@ package org.lala.media
             status = 'ready';
             //加载完成后播放
             play();
+            pause();
         }
             
         /** 创建buff数组,填充nss **/
