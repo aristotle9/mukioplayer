@@ -19,7 +19,7 @@ package com.longtailvideo.jwplayer.model {
 
 		protected var _playlistfile:String	= null;
 
-		protected var _autostart:Boolean 	= false; 
+		protected var _autostart:Boolean 	= true; 
 		protected var _bandwidth:Number		= 1500;
 		protected var _bufferlength:Number 	= 2; 
 		protected var _displaytitle:Boolean = true; 
