@@ -226,7 +226,7 @@
                         playerTool.loadYoukuVideo(params.id);
                     }
                 }
-                else if(params.type)
+                else if(params.type != 'video')
                 {
                     if(params.type == 'qq')
                     {
