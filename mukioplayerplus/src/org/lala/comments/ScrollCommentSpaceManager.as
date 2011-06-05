@@ -50,7 +50,7 @@ package org.lala.comments
         /** 弹幕速度,未在Comment中定义是因为与弹幕空间有关 **/
         private function getSpeed(cmt:Comment):Number
         {
-            return config.speede * (this.Width + cmt.width) / this.duration;
+            return config.speede * 0.5 * (this.Width + cmt.width) / this.duration;
         }
         /** 弹幕结束时间 **/
         private function getEnd(cmt:Comment):Number
