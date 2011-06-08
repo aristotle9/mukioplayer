@@ -199,7 +199,7 @@ package org.lala.plugins
         /** 生成一个可以复制内容的菜单项 **/
         private function createMenu(c:TextField):ContextMenuItem
         {
-            var mni:ContextMenuItem = new ContextMenuItem(c.text.substr(0,20) + (c.text.length > 20 ? '...' : ''));
+            var mni:ContextMenuItem = new ContextMenuItem('>> ' + c.text.substr(0,20) + (c.text.length > 20 ? '...' : ''));
             mni.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function(event:ContextMenuEvent):void
             {
                 System.setClipboard(c.text);
