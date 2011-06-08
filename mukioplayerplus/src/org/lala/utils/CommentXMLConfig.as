@@ -37,7 +37,17 @@ package org.lala.utils
         }
         public function getCommentFileURL(id:String):String
         {
-            return _load.replace(/\{\$id\}/ig,id);
+            var result:String = _load.replace(/\{\$id\}/ig,id);
+            var random:String = 'r=' + Math.ceil(Math.random() * 1000);
+            if(result.lastIndexOf('?') == -1)
+            {
+                result += '?' + random;
+            }
+            else
+            {
+                result += '&' + random;
+            }
+            return result;
         }
         public function getCommentPostURL(id:String):String
         {
