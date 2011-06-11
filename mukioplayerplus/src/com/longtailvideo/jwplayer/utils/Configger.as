@@ -39,7 +39,7 @@ package com.longtailvideo.jwplayer.utils {
 			if (this.xmlConfig) {
 				loadXML(this.xmlConfig);
 			} else {
-				loadFlashvars(RootReference.root.loaderInfo.parameters);
+				loadFlashvars(RootReference.parameters);
 			}
 		}
 

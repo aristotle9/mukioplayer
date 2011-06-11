@@ -12,18 +12,28 @@
         <![CDATA[
             import mx.events.FlexEvent;
             
-            private var _player:Player;
+            import org.lala.event.EventBus;
             
+            private var _player:Player;
+            /** JWPlayer 初始化参数 **/
+            public var config:Object = {};
             public function get player():Player
             {
                 return _player;
             }
             protected function group1_creationCompleteHandler(event:FlexEvent):void
             {
-                _player = new Player(playerHolder);
-                _player.addEventListener("jwplayerReady",playerReadyHandler);
-                // 为了接收事件,把addToStage方法从构造函数中分离出来
-                _player.add2Root();
+                try
+                {
+                    _player = new Player(playerHolder,config);
+                    _player.addEventListener("jwplayerReady",playerReadyHandler);
+                    // 为了接收事件,把addToStage方法从构造函数中分离出来
+                    _player.add2Root();
+                }
+                catch(error:Error)
+                {
+                    EventBus.getInstance().log('JWPlayer初始化失败:'+ error.toString());
+                }
             }
             private function playerReadyHandler(event:Event):void
             {

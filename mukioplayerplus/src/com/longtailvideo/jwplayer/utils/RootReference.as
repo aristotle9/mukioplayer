@@ -16,6 +16,9 @@ package com.longtailvideo.jwplayer.utils {
 
 		/** A reference to the stage. **/ 
 		private static var _stage:Stage;
+        
+        /** parameters,controlled by application **/
+        public static var parameters:Object;
 		
 		public static function get stage():Stage {
 			return _stage;
@@ -25,12 +28,13 @@ package com.longtailvideo.jwplayer.utils {
 			_stage = s;
 		}
 
-		public function RootReference(displayObj:DisplayObjectContainer) {
+		public function RootReference(displayObj:DisplayObjectContainer,params:Object=null) {
 			if (!RootReference.root) {
 //				RootReference.root = displayObj.root;
 //				RootReference.stage = displayObj.stage;
 				RootReference.root = displayObj;
 				RootReference.stage = displayObj.stage;
+                RootReference.parameters = params;
 				try {
 					Security.allowDomain("*");
 				} catch(e:Error) {
