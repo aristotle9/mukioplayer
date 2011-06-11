@@ -40,9 +40,11 @@
 		protected var _dispatcher:GlobalEventDispatcher;
 		
         private var _root:DisplayObjectContainer;
+        private var _params:Object;
 		/** Player constructor **/
-		public function Player(_rt:DisplayObjectContainer) {
+		public function Player(_rt:DisplayObjectContainer,_p:Object=null) {
             _root = _rt;
+            _params = _p;
 			try {
 				this.addEventListener(Event.ADDED_TO_STAGE, setupPlayer);
 			} catch (err:Error) {
@@ -60,7 +62,7 @@
 				this.removeEventListener(Event.ADDED_TO_STAGE, setupPlayer);
 			} catch (err:Error) {
 			}
-			new RootReference(this._root);
+			new RootReference(this._root,this._params);
 			_dispatcher = new GlobalEventDispatcher();
 			model = newModel();
 			view = newView(model);

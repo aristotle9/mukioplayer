@@ -29,6 +29,7 @@
             import mx.controls.Alert;
             import mx.events.FlexEvent;
             import mx.events.ResizeEvent;
+            import mx.utils.ObjectUtil;
             
             import org.lala.components.skins.IconButtonSkin;
             import org.lala.event.EventBus;
@@ -167,6 +168,11 @@
                     playerTool.loadYoukuVideo(params['ykid']);
                     bid = params['ykid'];
                 }
+                else if(params['id'] && params['file'])
+                {
+                    playerTool.loadSingleFile(params['file']);
+                    bid = params['id'];
+                }
                 
                 if(bid != '')
                 {
@@ -273,6 +279,12 @@
                 server = new CommentServer();
                 /** 全屏情况处理,更改state **/
                 stage.addEventListener( FullScreenEvent.FULL_SCREEN, fullScreenHandler );
+                var config:Object = ObjectUtil.copy(loaderInfo.parameters);
+                if(!config.type)
+                {
+                    config['file'] = null;
+                }
+                playerContainer.config = config;
                 log('应用程序初始化完成,等待播放器初始化.');
             }
             /** 处理播放器的工具条上的隐藏弹幕界面按钮事件 **/
