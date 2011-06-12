@@ -3,7 +3,7 @@
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/mx"
                xmlns:jw="com.longtailvideo.jwplayer.player.*"
-               xmlns:mk="org.lala.components.*" applicationComplete="application1_applicationCompleteHandler(event)" backgroundColor.fullScreen="#000000" backgroundColor.normal="#FFFFFF" height.normal="100%" width.normal="100%" backgroundColor.wideScreen="#FFFFFF" height.wideScreen="100%" width.wideScreen="100%">
+               xmlns:mk="org.lala.components.*" applicationComplete="application1_applicationCompleteHandler(event)" backgroundColor.fullScreen="#000000" backgroundColor.normal="#FFFFFF" height.normal="100%" width.normal="100%" backgroundColor.wideScreen="#FFFFFF" height.wideScreen="100%" width.wideScreen="100%" currentStateChange="application1_currentStateChangeHandler(event)" addedToStage="application1_addedToStageHandler(event)">
     <fx:Style source="MukioPlayerPlus.css"/>
     <s:states>
         <s:State name="normal"/>
@@ -29,6 +29,7 @@
             import mx.controls.Alert;
             import mx.events.FlexEvent;
             import mx.events.ResizeEvent;
+            import mx.events.StateChangeEvent;
             import mx.utils.ObjectUtil;
             
             import org.lala.components.skins.IconButtonSkin;
@@ -39,6 +40,7 @@
             import org.lala.scriptapis.ScriptDisplayer;
             import org.lala.scriptapis.ScriptPlayer;
             import org.lala.scriptapis.ScriptTool;
+            import org.lala.utils.AppConfig;
             import org.lala.utils.CommentDataParser;
             import org.lala.utils.CommentXMLConfig;
             import org.lala.utils.MukioTaskQueue;
@@ -56,6 +58,8 @@
             private var conf:CommentXMLConfig;
             /** 弹幕报务器接口 **/
             private var server:CommentServer;
+            /** 应用程序配置 **/
+            private var appConfig:AppConfig;
             /**
              * 播放器的初始化完成
              * JWPlayer初始化过程复杂(略去),在这个事件里表示JWPlayer的各部件已经可以使用了
@@ -274,6 +278,8 @@
             /** 应用程序初始化 **/
             private function application1_applicationCompleteHandler(event:FlexEvent):void
             {
+                currentState = appConfig.state;
+                
                 commentView.addEventListener("innerFullScreen",innerFullScreenHandler);
                 commentView.version = version;
                 server = new CommentServer();
@@ -335,6 +341,25 @@
             {
                 return CommentDataParser.cut((item['text']));
             }
+            /** 在状态改变后保存状态配置,如果配置实例存在的话 **/
+            private function application1_currentStateChangeHandler(event:StateChangeEvent):void
+            {
+                if(appConfig)
+                {
+                    appConfig.state = currentState;
+                }
+            }
+            /** 在loadInfo可读取时立即初始化配置 **/
+            protected function application1_addedToStageHandler(event:Event):void
+            {
+                appConfig = new AppConfig(loaderInfo.parameters);
+                /** 初始化到无界面状态 **/
+                if(appConfig.state == 'fullScreen')
+                {
+                    isInnerFullScreenState = true;
+                }
+            }
+
         ]]>
     </fx:Script>
     <s:Group height.fullScreen="100%" width.fullScreen="100%" bottom.normal="0" left.normal="0" right.normal="0" top.normal="0" bottom.wideScreen="0" left.wideScreen="0" right.wideScreen="0" top.wideScreen="0">
