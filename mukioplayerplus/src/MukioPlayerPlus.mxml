@@ -214,66 +214,116 @@
                     }
                 }
             }
-            /** 自己服务器上的路由,在产品阶段使用 **/
+            /** 自己服务器上的路由,考虑参数兼容性 **/
             private function routeHost(params:Object):void
             {
-                var cid:String = params.cid?params.cid:params.id?params.id:params.vid;
-                if(params.file)
+                var config:Object = ObjectUtil.copy(params);
+                var cmtItem:Object = {
+                    cid:null,
+                    cfile:null
+                };
+                if(config.type == 'video' || config.type == null)
                 {
-                    if(params.type == 'video' || params.type == null)
+                    if(config.type2)
                     {
-                        playerTool.loadSingleFile(params.file);
+                        config.type = config.type2;
                     }
                 }
-                else if(params.type2)
+                //至此type2不用考虑,但是type有可能是null
+                if(config.file == null 
+                    && (config.id != null || config.vid !=null)
+                    && (config.type == 'video' || config.type == null))
                 {
-                    if(params.type2 == 'qq')
-                    {
-                        playerTool.loadQqVideo(params.id);
-                    }
-                    else if(params.type2 == 'youku')
-                    {
-                        playerTool.loadYoukuVideo(params.id);
-                    }
+                    config.type = 'sina';
                 }
-                else if(params.type && params.type != 'video')
+                if(config.type != null && config.type != 'video')
                 {
-                    if(params.type == 'qq')
+                    if(config.vid == null && config.id != null)
                     {
-                        playerTool.loadQqVideo(params.id);
-                    }
-                    else if(params.type == 'youku')
-                    {
-                        playerTool.loadYoukuVideo(params.id);
+                        config.vid = config.id;
                     }
                 }
-                else if(params.id)
+                //至此sina不用考虑
+                if(config.vid != null)
                 {
-                    playerTool.loadSinaVideo(params.id);
+                    cmtItem.cid = config.vid;
                 }
-                else if(params.vid)
+                if(config.id != null)
                 {
-                    playerTool.loadSinaVideo(params.vid);
+                    cmtItem.cid = config.id;
                 }
-                server.cid = cid;
+                if(config.cid != null)
+                {
+                    cmtItem.cid = config.cid;
+                }
+                //cid 转换完成
+                if(config.cfile)
+                {
+                    cmtItem.cfile = config.cfile;
+                }
+                //开始加载弹幕
+                //用于amf
+                server.cid = cmtItem.cid;
                 /** 用户标识可以使用user值传入 **/
-                if(params.user)
+                if(config.user)
                 {
-                    server.user = params.user;
+                    server.user = config.user;
                 }
                 //配置在路由时已近加载完成
-                if(params.cfile)
+                if(cmtItem.cfile)
                 {
-                    playerTool.loadCmtFile(params.cfile);
+                    playerTool.loadCmtFile(cmtItem.cfile);
                 }
                 else if(String(conf.gateway).length)
                 {
                     playerTool.loadCmtData(server);  
                 }
+                else if(cmtItem.cid)
+                {
+                    playerTool.loadCmtFile(conf.getCommentFileURL(cmtItem.cid));
+                }
                 else
                 {
-                    playerTool.loadCmtFile(conf.getCommentFileURL(cid));
+                    log('弹幕无法加载,参数有误.');
                 }
+                //弹幕加载完成
+                //开始加载视频
+                //sina qq youku video 类型在此处处理
+                var typeArray:Array = "sina qq youku video".split(' ');
+                if(typeArray.indexOf(config.type) == -1)
+                {
+                    if(config.file)
+                    {   
+                        if(config.type)
+                            player.load({'type':config.type,'file':config.file});
+                        else
+                            player.load({'file':config.file});
+                    }
+                    else
+                    {
+                        log('视频无法加载,参数有误.');
+                    }
+                    //注意,对于无后缀的情况不能处理,直接出错
+                }
+                else
+                {
+                    switch(config.type)
+                    {
+                        case 'video':
+                            playerTool.loadSingleFile(config.file);
+                            break;
+                        case 'qq':
+                            playerTool.loadQqVideo(config.vid);
+                            break;
+                        case 'youku':
+                            playerTool.loadYoukuVideo(config.vid);
+                            break;
+                        case 'sina':
+                            playerTool.loadSinaVideo(config.vid);
+                            break;
+                    }
+                }
+                //视频加载完毕
             }
             /** 应用程序初始化 **/
             private function application1_applicationCompleteHandler(event:FlexEvent):void
@@ -286,10 +336,9 @@
                 /** 全屏情况处理,更改state **/
                 stage.addEventListener( FullScreenEvent.FULL_SCREEN, fullScreenHandler );
                 var config:Object = ObjectUtil.copy(loaderInfo.parameters);
-                if(!config.type)
-                {
-                    config['file'] = null;
-                }
+                /** 清除传入参数,将在播放器完成后人工加载视频 **/
+                config['file'] = null;
+                config['type'] = null;
                 playerContainer.config = config;
                 log('应用程序初始化完成,等待播放器初始化.');
             }
