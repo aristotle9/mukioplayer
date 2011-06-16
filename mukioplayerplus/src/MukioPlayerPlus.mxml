@@ -335,11 +335,6 @@
                 server = new CommentServer();
                 /** 全屏情况处理,更改state **/
                 stage.addEventListener( FullScreenEvent.FULL_SCREEN, fullScreenHandler );
-                var config:Object = ObjectUtil.copy(loaderInfo.parameters);
-                /** 清除传入参数,将在播放器完成后人工加载视频 **/
-                config['file'] = null;
-                config['type'] = null;
-                playerContainer.config = config;
                 log('应用程序初始化完成,等待播放器初始化.');
             }
             /** 处理播放器的工具条上的隐藏弹幕界面按钮事件 **/
