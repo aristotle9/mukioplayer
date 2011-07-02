@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
+ <version>1.170</version> 
+ <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
+ <description><![CDATA[
+MukioPlayer -- AB 桌面播放器 v1.170(2011年6月17日)
+ * acfun/bilibili域名更正,修改为.tv
+ * bilibili乱码更正,部分解析错误
+]]></description> 
+</update>
