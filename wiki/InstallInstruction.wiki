@@ -4,7 +4,6 @@
 = 确认Adobe Air是否已经安装 =
 
 系统没有安装Adobe Air的先安装 [http://get.adobe.com/air/ Air]
+解压mukioplayer.zip，再双击mukioplayer.air文件运行。
 
-再双击mukioplayer.air文件
-
-(在mukioplayer.zip压缩文件中)
+(Windows Vista/Windows 7用户可能会弹出UAC对话框，请点击“允许”)。
