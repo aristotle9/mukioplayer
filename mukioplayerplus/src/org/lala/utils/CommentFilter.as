@@ -166,7 +166,7 @@ package org.lala.utils
             fArr.addItem( { 'mode':mode,
                 'data':data,
                 'exp':exp,
-                'normalExp':String(exp).replace(/(\^|\$|\\|\.|\*|\+|\?|\(|\)|\[|\]|\{|\}|\||\/)/g,'\\$1'),
+                'normalExp':expString,
                 'id':ids++,
                 'enable':enable} );
         }
