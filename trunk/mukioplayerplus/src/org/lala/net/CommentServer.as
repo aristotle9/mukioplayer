@@ -75,6 +75,7 @@ package org.lala.net
                 {
                     postVariables[k] = data[k];
                 }
+                postVariables["cid"] = _cid;
                 var request:URLRequest = new URLRequest(_postServer);
                 request.method = 'POST';
                 request.data = postVariables;
