@@ -172,6 +172,11 @@
                     playerTool.loadYoukuVideo(params['ykid']);
                     bid = params['ykid'];
                 }
+                else if(params['tdid'])
+                {
+                    playerTool.loadTuDouVideo(params['tdid']);
+                    bid = params['tdid'];
+                }
                 else if(params['id'] && params['file'])
                 {
                     playerTool.loadSingleFile(params['file']);
@@ -196,6 +201,10 @@
                         else if(params['type2'] == 'youku')
                         {
                             playerTool.loadYoukuVideo(params['id']);
+                        }
+                        else if(params['type2'] == 'tudou')
+                        {
+                            playerTool.loadTuDouVideo(params['id']);
                         }
                     }
                     else
@@ -288,8 +297,8 @@
                 }
                 //弹幕加载完成
                 //开始加载视频
-                //sina qq youku video 类型在此处处理
-                var typeArray:Array = "sina qq youku video".split(' ');
+                //sina qq youku video tudou 类型在此处处理
+                var typeArray:Array = "sina qq youku video tudou".split(' ');
                 if(typeArray.indexOf(config.type) == -1)
                 {
                     if(config.file)
@@ -317,6 +326,9 @@
                             break;
                         case 'youku':
                             playerTool.loadYoukuVideo(config.vid);
+                            break;
+                        case 'tudou':
+                            playerTool.loadTuDouVideo(config.vid);
                             break;
                         case 'sina':
                             playerTool.loadSinaVideo(config.vid);

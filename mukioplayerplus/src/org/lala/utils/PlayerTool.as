@@ -10,10 +10,12 @@ package org.lala.utils
     import flash.events.SecurityErrorEvent;
     import flash.net.URLLoader;
     import flash.net.URLRequest;
+    import flash.xml.*;
     
     import org.lala.event.EventBus;
     import org.lala.net.CommentServer;
     import org.lala.plugins.CommentView;
+    import org.lala.utils.CommentConfig;
 
     /** 
     * 播放器常用方法集
@@ -28,6 +30,8 @@ package org.lala.utils
         private var _player:Player;
         /** 所辅助控制的弹幕插件的引用,主要用来加载弹幕文件 **/
         private var _commentView:CommentView;
+        [Bindable]
+        private var config:CommentConfig = CommentConfig.getInstance();
         
         public function PlayerTool(p:Player,target:IEventDispatcher=null)
         {
@@ -89,11 +93,72 @@ package org.lala.utils
             infoLoader.addEventListener(Event.COMPLETE,infoLoaderComplete);
             var infoUrl:String = 'http://v.youku.com/player/getPlayList/VideoIDS/'+ vid + '/';
             infoLoader.load(new URLRequest(infoUrl));
-            log("开始加载Youku视频信息...");
+            //log("开始加载Youku视频信息...");
+        }
+        /**
+         * 播放土豆视频
+         * @param vid Tudou视频id
+         **/
+        public function loadTuDouVideo(vid:String):void
+        {
+            var infoLoader:URLLoader = new URLLoader();
+            infoLoader.addEventListener(IOErrorEvent.IO_ERROR,errorHandler);
+            infoLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,errorHandler);
+            infoLoader.addEventListener(Event.COMPLETE,TudouLoaderComplete);
+            var infoUrl:String = 'http://v2.tudou.com/v?it=' + vid + '&hd=2&st=1%2C2%2C3%2C99';
+            infoLoader.load(new URLRequest(infoUrl));
         }
         private function errorHandler(event:Event):void
         {
             log(String(event));
+        }
+        private function TudouLoaderComplete(event:Event):void
+        {
+            
+            event.target.removeEventListener(IOErrorEvent.IO_ERROR,errorHandler);
+            event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,errorHandler);
+            event.target.removeEventListener(Event.COMPLETE,TudouLoaderComplete);
+            var loader:URLLoader = event.target as URLLoader;
+            var urlStr:String = "";
+            var imageQ:int = 0;
+            try
+            {
+                var tudouXML:XML = (XML)(loader.data);
+                var timeLenth:String = tudouXML.attribute("time");
+                var quantLimit:int = 99;
+                switch(config.quality)
+                {
+                    case 1:
+                        quantLimit = 3;
+                        break;
+                    case 2:
+                        quantLimit = 4;
+                        break;
+                    case 3:
+                        quantLimit = 99;
+                        break;
+                    default:
+                        quantLimit = 2;
+                        break;
+                }
+                for(var i:int=0;i<tudouXML.a.f.length();i++)
+                {
+                    var _imageQ:int = int(tudouXML.a.f[i].attribute("brt"));
+                    if(_imageQ > imageQ && _imageQ <= quantLimit)
+                    {
+                        imageQ = _imageQ;
+                        urlStr = tudouXML.a.f[i].toString();
+                    }
+                }
+                if(imageQ > 0)
+                {
+                    loadSingleFile(urlStr);
+                }
+            }
+            catch(error:Error)
+            {
+                log('土豆视频信息解析失败:'+error);
+            }
         }
         private function infoLoaderComplete(event:Event):void
         {
@@ -102,7 +167,7 @@ package org.lala.utils
             try
             {
                 var info:Object = parseYoukuInfo(loader.data as String);
-                log("youku视频信息解析完成,可以播放了.");
+                //log("youku视频信息解析完成,可以播放了.");
                 _player.load(
                     {   type:'sina',
                         file:'videoInfo',
@@ -114,6 +179,7 @@ package org.lala.utils
                 log('Youku视频信息解析失败:'+error);
             }
         }
+        
         private function parseYoukuInfo(src:String):Object
         {
             var type:String = 'flv';
@@ -126,9 +192,16 @@ package org.lala.utils
                 data = data.data[0];
                 for (var index:String in data.streamtypes)
                 {
-                    if (String(data.streamtypes[index]).toLowerCase() == 'mp4')
+                    var streamType:String = data.streamtypes[index].toLowerCase();
+                    if (streamType == 'hd2' && config.quality > 2)
+                    {
+                        type = 'hd2';
+                        break;
+                    }
+                    else if (streamType == 'mp4' && config.quality > 1)
                     {
                         type = 'mp4';
+                        break;
                     }
                 }
                 //create parser
