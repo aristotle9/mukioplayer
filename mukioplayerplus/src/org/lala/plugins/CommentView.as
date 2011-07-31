@@ -88,7 +88,10 @@ package org.lala.plugins
         private var aboutMenuItem:ContextMenuItem;
         /** 播放器右键 **/
         private var menuArr:Array=[];
-        private var _version:String;        
+        /** 插件的版本号,非JW播放器 **/
+        private var _version:String;
+        /** 简化的视频的播放器态,播放或静止 **/
+        private var _isPlaying:Boolean = false;
         
         public function CommentView()
         {
@@ -137,6 +140,9 @@ package org.lala.plugins
             
             setupUI();
             setUpRightClick(MovieClip(_root));
+            
+            /** 设置播放状态的初值 **/
+            _isPlaying = player.config.autostart;
         }
         /** 右键 **/
         private function setUpRightClick(_root:MovieClip):void
@@ -279,6 +285,7 @@ package org.lala.plugins
                         IComment(c).resume();
                     }
                 }
+                _isPlaying = true;
             }
             else if((event.oldstate == 'PLAYING' && event.newstate != 'BUFFERING') ||
                 (event.oldstate == 'BUFFERING' && event.newstate != 'PLAYING'))
@@ -291,6 +298,7 @@ package org.lala.plugins
                         IComment(c).pause();
                     }
                 }
+                _isPlaying = false;
             }
         }
         /** 接口方法:播放器调整大小时被调用 **/
@@ -455,19 +463,26 @@ package org.lala.plugins
             return _clip;
         }
 
-        /** 版本号 **/
+        /** 插件版本号 **/
         public function get version():String
         {
             return _version;
         }
 
         /**
-         * @private
+         * 插件版本号
          */
         public function set version(value:String):void
         {
             _version = value;
         }
+
+        /** 简化的视频的播放器态,播放或静止 **/
+        public function get isPlaying():Boolean
+        {
+            return _isPlaying;
+        }
+
 
     }
 }

@@ -5,6 +5,7 @@ package org.lala.comments
     
     import org.lala.event.*;
     import org.lala.net.*;
+    import org.lala.plugins.CommentView;
     import org.lala.utils.*;
 
     /**
@@ -226,6 +227,11 @@ package org.lala.comments
             /** 添加到舞台 **/
             clip.addChild(DisplayObject(cmt));
             cmt.start();
+            /** 暂停时发送的弹幕,在显示后立即暂停 **/
+            if(!CommentView.getInstance().isPlaying)
+            {
+                cmt.pause();
+            }
         }
         /**
         * 空间分配
