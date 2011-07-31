@@ -154,6 +154,15 @@ package org.lala.utils
         }
         private function add(mode:int, exp:String, data:String,enable:Boolean=true):void
         {
+			//扫描现有关键字串。
+			var expString:String = String(exp).replace(/(\^|\$|\\|\.|\*|\+|\?|\(|\)|\[|\]|\{|\}|\||\/)/g,'\\$1');
+			for(var i:String in fArr)
+			{
+				if(fArr[i].data == data && fArr[i].normalExp == expString && fArr[i].mode == mode)
+				{
+					return;
+				}
+			}
             fArr.addItem( { 'mode':mode,
                 'data':data,
                 'exp':exp,
