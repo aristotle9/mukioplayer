@@ -24,6 +24,9 @@ package org.lala.utils
         private var _isChangeUIFont:Boolean = false;
         /** 是否启用播放器控制API **/
         private var _isPlayerControlApiEnable:Boolean = true;
+        /** 画质参数，默认为土豆480P，优酷高清 **/
+        private var _quality:int = 2;
+        
         [Bindable]
         /** 粗体 **/
         public var bold:Boolean=true;
@@ -90,13 +93,14 @@ package org.lala.utils
             sizee = 1;
             font = '黑体';
             isChangeUIFont = false;
+            quality = 2;
             isPlayerControlApiEnable = true;
         }
         
         override public function toString():String
         {
             var a:Array = [];
-            a.push(bold,alpha,filterIndex,speede,sizee,font,isChangeUIFont,isPlayerControlApiEnable);
+            a.push(bold,alpha,filterIndex,speede,sizee,font,isChangeUIFont,isPlayerControlApiEnable,quality);
             return JSON.encode(a);
         }
         
@@ -113,6 +117,7 @@ package org.lala.utils
                 font = a[5];
                 isChangeUIFont = a[6];
                 isPlayerControlApiEnable = a[7];
+                quality = a[8];
             }
             catch(e:Error){}
             if(speede <= 0)
@@ -216,7 +221,23 @@ package org.lala.utils
             _isPlayerControlApiEnable = value;
             dispatchEvent(new Event('playerControlApiEnableChange'));
         }
-
+        [Bindable("playerQualityChange")]
+        public function get quality():int
+        {
+            return _quality;
+        }
+        
+        /**
+         * @private
+         */
+        public function set quality(value:int):void
+        {
+            if(value < 0 || value > 4)return;
+            if(_quality = value)return;
+            _quality = value;
+            dispatchEvent(new Event('playerQualityChange'));
+        }
+        
 
     }
 }

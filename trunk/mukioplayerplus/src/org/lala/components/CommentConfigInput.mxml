@@ -17,6 +17,7 @@
                 <s:Button id="closeBt" click="PopUpManager.removePopUp(panel);" right="0" height="22" label="关闭"/>
             </s:HGroup>
         </s:Panel>
+        <mx:RadioButtonGroup id="QualitySetting"/>
     </fx:Declarations>
     <fx:Script>
         <![CDATA[
@@ -38,7 +39,7 @@
                 outputText.selectAll();
                 outputText.setFocus();
             }
-
+            
             protected function group1_creationCompleteHandler(event:FlexEvent):void
             {
                 config.addEventListener('fontChange',fontChnageHandler);
@@ -61,6 +62,32 @@
                         fontLst.selectedIndex = i;
                         break;
                     }
+                }
+            }
+            private function setQuality():void
+            {
+                if(high.selected)config.quality = 3;
+                else if(middle.selected)config.quality = 2;
+                else if(low.selected)config.quality = 1;
+                else config.quality = 2;
+                config.save();
+            }
+            private function getQualitySetting():void
+            {
+                switch(config.quality)
+                {
+                    case 1:
+                        low.selected = true;
+                        break;
+                    case 2:
+                        middle.selected = true;
+                        break;
+                    case 3:
+                        high.selected = true;
+                        break;
+                    default:
+                        middle.selected = true;
+                        break;
                 }
             }
         ]]>
@@ -89,6 +116,15 @@
         </mx:FormItem>
         <mx:FormItem label="脚本配置">
             <s:CheckBox id="isPlayerControlApiEnableCb" label="启用播放器控制API" toolTip="影响的行为:Player.play(),pause(),seek()" selected="@{config.isPlayerControlApiEnable}" change="config.save();" />
+        </mx:FormItem>
+        <mx:FormItem width="333" label="画面质量" toolTip="高画质：土豆原画，优酷超清；一般：土豆480P，优酷高清；流畅：土豆360P，优酷Flv。暂不支持新浪。">
+            <s:HGroup>
+                <s:RadioButton label="高画质" groupName="QualitySetting" id="high" click="setQuality();"/>
+                <s:RadioButton label="一般" groupName="QualitySetting" id="middle" click="setQuality();"/>
+                <s:RadioButton label="流畅" groupName="QualitySetting" id="low" creationComplete="getQualitySetting();" click="setQuality();"/>
+                <!--还没想好怎么做。-->
+                <s:CheckBox label="断线重连" />
+            </s:HGroup>
         </mx:FormItem>
         <s:HGroup horizontalAlign="right">
             <s:Button id="getText" label="文本界面" click="getText_clickHandler(event)" />
