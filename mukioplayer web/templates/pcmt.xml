@@ -1,3 +1,0 @@
-{% if cblock %}{{ cblock.data }}{% else %}<?xml version="1.0" encoding="utf-8"?>
-<information>
-</information>{% endif %}

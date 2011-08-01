@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<information>{% for c in comments %}
-  <data>
-    <playTime>{{ c.stime }}</playTime>
-    <message fontsize="{{ c.fontsize }}" color="{{ c.color }}" mode="{{ c.mode }}">{{ c.text|escape }}</message>
-    <times>{{ c.postdate|date:"Y-m-d H:i:s" }}</times>
-    <ip>{{ c.author_ip }}</ip>
-  </data>{% endfor %}
-</information>
