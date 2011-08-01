@@ -233,7 +233,7 @@ package org.lala.utils
         public function set quality(value:int):void
         {
             if(value < 0 || value > 4)return;
-            if(_quality = value)return;
+            if(_quality == value)return;
             _quality = value;
             dispatchEvent(new Event('playerQualityChange'));
         }
