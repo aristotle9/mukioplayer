@@ -1,0 +1,32 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+.boldBtStyle
+{
+    font-weight:bold;
+}
+.italicBtStyle
+{
+    font-style:italic;
+}
+.underlineBtStyle
+{
+    text-decoration:underline;
+}
+global
+{
+    font-family: '微软雅黑','simsun','_sans';
+}
+mx|ToolTip
+{
+    backgroundColor: black;
+    backgroundAlpha: 0.7;
+    cornerRadius: 0;
+    color: white;
+    font-size:12px;
+}
+.boldStyle
+{
+    fontWeight:bold;
+}

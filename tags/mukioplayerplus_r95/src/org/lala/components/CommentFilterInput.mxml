@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" 
+         xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+    <s:layout>
+        <s:VerticalLayout paddingLeft="2"/>
+    </s:layout>
+    <fx:Declarations>
+        <!-- 过滤器设置 -->
+    </fx:Declarations>
+    <fx:Script>
+        <![CDATA[
+            import org.lala.utils.CommentFilter;
+            
+            [Bindable]
+            private var filter:CommentFilter = CommentFilter.getInstance();
+
+            protected function addBt_clickHandler(event:Event):void
+            {
+                filter.addItem(input.text);
+                filter.savetoSharedObject();
+                input.text = "";
+            }
+            private function modeLabel(item:Object, column:DataGridColumn):String
+            {
+                switch(item['mode']){
+                    case 0:
+                        return "模式";
+                    case 1:
+                        return "颜色";
+                    case 2:
+                        return "文本";
+                }
+                return "未知";
+            }
+
+        ]]>
+    </fx:Script>
+    <s:HGroup horizontalAlign="center" gap="2" height="22">
+        <s:CheckBox id="enableCb" label="启用" width="100" height="100%" selected="{filter.bEnable}" change="filter.bEnable=enableCb.selected;filter.savetoSharedObject();"/>
+        <s:CheckBox id="regCb" label="支持正则表达式"  width="140" height="100%" selected="{filter.bRegEnable}" change="filter.bRegEnable=regCb.selected;filter.savetoSharedObject();"/>
+        <s:CheckBox id="whilteListCb" label="白名单模式" width="100" height="100%" selected="{filter.bWhiteList}" change="filter.bWhiteList=whilteListCb.selected;filter.savetoSharedObject();"/>
+    </s:HGroup>
+    <s:HGroup width="100%">
+        <s:TextInput id="input" width="100%" enter="addBt_clickHandler(event)">
+            <s:toolTip>普通表达式
+模式表达式:m=[模式号](m=4)
+颜色表达式:c=[颜色十六进制文本](c=ff0000)</s:toolTip>
+        </s:TextInput><s:Button id="addBt" label="添加" width="70" right="0" click="addBt_clickHandler(event);"/>
+    </s:HGroup>
+    <mx:DataGrid width="100%" height="100%" bottom="0" dataProvider="{filter.filterSource}">
+        <mx:columns>
+            <mx:DataGridColumn headerText="删" dataField="" itemRenderer="org.lala.components.filterInputElements.DeleteButtonRender" width="20"/>
+            <mx:DataGridColumn headerText="过滤类别" dataField="mode" labelFunction="modeLabel"/>
+            <mx:DataGridColumn headerText="关键词" dataField="exp" itemRenderer="org.lala.components.filterInputElements.ColorFieldRender"/>
+            <mx:DataGridColumn headerText="源文本" dataField="data"/>
+            <mx:DataGridColumn headerText="使用状态" dataField="enable" itemRenderer="org.lala.components.filterInputElements.EnableFieldRender"/>
+        </mx:columns>
+    </mx:DataGrid>
+</s:Group>
