@@ -49,10 +49,10 @@ package org.lala.plugins
         private var LoopButtonIcon:Class;
         private var _loopButtonIcon:Bitmap;
         
-        [Embed(source="assets/commentShowIcon.png")]
-        /** 显示隐藏弹幕图标 **/
-        private var CommentVisibleIcon:Class;
-        private var _visibleButtonIcon:Bitmap;
+//        [Embed(source="assets/commentShowIcon.png")]
+//        /** 显示隐藏弹幕图标 **/
+//        private var CommentVisibleIcon:Class;
+//        private var _visibleButtonIcon:Bitmap;
         
         /** 插件配置,用于从外部传参数给本插件 **/
         private var config:PluginConfig;
@@ -225,8 +225,8 @@ package org.lala.plugins
             _loopButtonIcon.alpha = player.config.repeat != 'single' ? 0.5 : 1;
             //使用ZIP皮肤时必须在装好按钮后设置
             
-            _visibleButtonIcon = new CommentVisibleIcon() as Bitmap;
-            cb.addButton(_visibleButtonIcon,'VisibleBt',visibleButtonHandler);
+//            _visibleButtonIcon = new CommentVisibleIcon() as Bitmap;
+//            cb.addButton(_visibleButtonIcon,'VisibleBt',visibleButtonHandler);
         }
         /**
         * 内全屏事件监听 
@@ -249,24 +249,6 @@ package org.lala.plugins
             {
                 player.config.repeat  = 'none';
                 _loopButtonIcon.alpha = .5;
-            }
-        }
-        /**
-        * 是否显示弹幕
-        **/
-        private function visibleButtonHandler(event:Event):void
-        {
-            if (cmtConfig.visible != false)
-            {
-                cmtConfig.visible  = false;
-                _clip.visible = false;
-                _visibleButtonIcon.alpha = .5;
-            }
-            else
-            {
-                cmtConfig.visible  = true;
-                _clip.visible = true;
-                _visibleButtonIcon.alpha = 1;
             }
         }
         /** 状态改变事件监听器,监听暂停或者播放 **/
