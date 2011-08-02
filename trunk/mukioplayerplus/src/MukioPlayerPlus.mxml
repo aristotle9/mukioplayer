@@ -41,6 +41,7 @@
             import org.lala.scriptapis.ScriptPlayer;
             import org.lala.scriptapis.ScriptTool;
             import org.lala.utils.AppConfig;
+            import org.lala.utils.CommentConfig;
             import org.lala.utils.CommentDataParser;
             import org.lala.utils.CommentXMLConfig;
             import org.lala.utils.MukioTaskQueue;
@@ -415,7 +416,28 @@
                     isInnerFullScreenState = true;
                 }
             }
-
+            /**
+             * 是否显示弹幕
+             **/
+            protected function visibleButtonHandler(event:Event):void
+            {
+                var cmtConfig:CommentConfig = CommentConfig.getInstance();
+                var _clip:Sprite = commentView.clip;
+                var _visibleButtonIcon:DisplayObject = visibleToggleBt;
+                
+                if (cmtConfig.visible != false)
+                {
+                    cmtConfig.visible  = false;
+                    _clip.visible = false;
+                    _visibleButtonIcon.alpha = .5;
+                }
+                else
+                {
+                    cmtConfig.visible  = true;
+                    _clip.visible = true;
+                    _visibleButtonIcon.alpha = 1;
+                }
+            }
         ]]>
     </fx:Script>
     <s:Group height.fullScreen="100%" width.fullScreen="100%" bottom.normal="0" left.normal="0" right.normal="0" top.normal="0" bottom.wideScreen="0" left.wideScreen="0" right.wideScreen="0" top.wideScreen="0">
@@ -431,6 +453,7 @@
             </s:BorderContainer>
             <s:HGroup excludeFrom="fullScreen" width="100%" gap="1">
                 <mk:NormalCommentInput id="normalCommentInput" width="100%" height="22" />
+                <mk:IconButton id="visibleToggleBt" icon="@Embed(source='assets/commentShowIcon.png')" right="0" click="visibleButtonHandler(event)" width="26" height="22" skinClass="org.lala.components.skins.IconButtonSkin"/>
                 <mk:IconButton id="wideToggleBt" icon="@Embed(source='assets/wideScreenIcon.png')" right="0" click="currentState=currentState=='wideScreen'?'normal':'wideScreen'" width="26" height="22" skinClass="org.lala.components.skins.IconButtonSkin"/>
             </s:HGroup>
         </s:Group>
