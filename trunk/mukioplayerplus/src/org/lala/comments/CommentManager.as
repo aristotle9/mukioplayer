@@ -48,6 +48,8 @@ package org.lala.comments
         protected var mode_list:Array = [];
         /** 普通弹幕配置类 **/
         protected var config:CommentConfig = CommentConfig.getInstance();
+        /** 准备栈 **/
+        protected var prepare_stack:Array = [];
         /**
          * 构造函数
          */
@@ -206,6 +208,7 @@ package org.lala.comments
             {
                 this.pointer ++;
             }
+            start_all();
         }
         /**
          * 开始播放一个弹幕
@@ -226,12 +229,8 @@ package org.lala.comments
             this.add2Space(cmt);
             /** 添加到舞台 **/
             clip.addChild(DisplayObject(cmt));
-            cmt.start();
-            /** 暂停时发送的弹幕,在显示后立即暂停 **/
-            if(!CommentView.getInstance().isPlaying)
-            {
-                cmt.pause();
-            }
+            /** 压入准备栈,在所有弹幕准备完成后一同出栈 **/
+            prepare_stack.push(cmt);
         }
         /**
         * 空间分配
@@ -305,6 +304,32 @@ package org.lala.comments
                 {
                     break;
                 }
+            }
+            //弹出所有准备栈中的可视弹幕实例
+            start_all();
+        }
+        /**
+        * 启动弹幕,该方法跟在所有的this.start之后调用
+        ***/
+        protected function start_all():void
+        {
+            if(CommentView.getInstance().isPlaying)
+            {
+                while(prepare_stack.length)
+                {
+                    var cmt:IComment = prepare_stack.pop();
+                    cmt.start();
+                }            
+            }
+            else
+            {
+                while(prepare_stack.length)
+                {
+                    cmt = prepare_stack.pop();
+                    cmt.start();
+                    /** 暂停时发送的弹幕,在显示后立即暂停 **/
+                    cmt.pause();
+                }            
             }
         }
         /**
