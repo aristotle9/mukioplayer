@@ -214,6 +214,9 @@ package com.longtailvideo.jwplayer.media {
 		public function get state():String {
 			return _state;
 		}
+        public function set state(value:String):void {
+            _state = value;
+        }
 		
 		
 		/** Currently playing PlaylistItem **/
@@ -278,7 +281,7 @@ package com.longtailvideo.jwplayer.media {
 		 * @param property
 		 * @param value
 		 */
-		protected function sendMediaEvent(type:String, properties:Object=null):void {
+		public function sendMediaEvent(type:String, properties:Object=null):void {
 			if (type == MediaEvent.JWPLAYER_MEDIA_BUFFER_FULL && state == PlayerState.PAUSED) {
 				_queuedBufferFull = true;
 			} else {

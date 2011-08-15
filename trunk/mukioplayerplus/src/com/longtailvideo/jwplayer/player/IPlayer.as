@@ -20,6 +20,7 @@ package com.longtailvideo.jwplayer.player {
 		 * The player's current configuration
 		 */
 		function get config():PlayerConfig;
+        function get FPS():int;
 		/**
 		 * Player version getter
 		 */

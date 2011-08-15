@@ -55,14 +55,14 @@ package com.longtailvideo.jwplayer.view {
 			setAboutText();
 			addItem(about, aboutHandler);
 			try {
-				fullscreen = new ContextMenuItem('Toggle Fullscreen...');
+				fullscreen = new ContextMenuItem('全屏');
 				addItem(fullscreen, fullscreenHandler);
 			} catch (err:Error) {
 			}
-			stretching = new ContextMenuItem('Stretching is ' + _player.config.stretching + '...');
+			stretching = new ContextMenuItem('填满方式 ' + _player.config.stretching + '...');
 			addItem(stretching, stretchHandler);
 			if (Capabilities.isDebugger == true || _player.config.debug != Logger.NONE) {
-				debug = new ContextMenuItem('Logging to ' + _player.config.debug + '...');
+				debug = new ContextMenuItem('记录日志 ' + _player.config.debug + '...');
 				addItem(debug, debugHandler);
 			}
 		}
