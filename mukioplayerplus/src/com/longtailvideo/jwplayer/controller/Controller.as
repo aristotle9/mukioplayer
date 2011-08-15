@@ -373,16 +373,19 @@ package com.longtailvideo.jwplayer.controller {
 			}
 
 			if (_model.playlist.currentItem) {
+                trace('JW_PLAY');
 				switch (_player.state) {
 					case PlayerState.IDLE:
 						_model.media.addEventListener(MediaEvent.JWPLAYER_MEDIA_BUFFER_FULL, bufferFullHandler);
 						_model.media.load(_model.playlist.currentItem);
 						break;
 					case PlayerState.PAUSED:
-						if (_queuedSeek >= 0) { 
+						if (_queuedSeek >= 0) {
+                            trace('JW_SEEK');
 							_model.media.seek(_queuedSeek);
 							_queuedSeek = -1; 
 						} else { 
+                            trace('JW_SEEK_PLAY');
 							_model.media.play(); 
 						}
 						break;
@@ -516,16 +519,20 @@ package com.longtailvideo.jwplayer.controller {
 
 			return false;
 		}
-
+        public function setMediaInfo(msg:String):void
+        {
+            _model.media.sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_ERROR, {message: msg});
+        }
 
 		public function load(item:*):Boolean {
 			if (locking) {
 				_unlockAndLoad = true;
 				return false;
 			}
-			
+			trace('LOAD MEDIAS');
 			if (_model.state != ModelStates.IDLE) {
 				_model.media.stop();
+                _model.state = ModelStates.IDLE;
 			}
 			if (item is PlaylistItem) {
 				return loadPlaylistItem(item as PlaylistItem);
