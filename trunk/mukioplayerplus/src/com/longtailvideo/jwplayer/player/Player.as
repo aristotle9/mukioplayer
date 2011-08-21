@@ -18,10 +18,8 @@
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	
-	import org.acfun.components.ResourceMonitor;
 	
 	/**
 	 * Sent when the player has been initialized and skins and plugins have been successfully loaded.
@@ -43,11 +41,6 @@
 		
         private var _root:DisplayObjectContainer;
         private var _params:Object;
-        private var fpsMoniter:Sprite = null;
-        public var startTime:Number = 0;
-        public var framesNumber:Number = 0;
-        private var _FPS:int = 25;
-        
 		/** Player constructor **/
 		public function Player(_rt:DisplayObjectContainer,_p:Object=null) {
             _root = _rt;
@@ -58,27 +51,12 @@
 				setupPlayer();
 			}
 		}
-        public function displayInfo(str:String):void
-        {
-            controller.setMediaInfo(str);
-        }
+        
 		public function add2Root():void
         {
             _root.addChild(this);
-            //初始化性能监视器。
-            addEventListener(Event.ENTER_FRAME, checkFPS);
-            startTime = getTimer();
         }
-		public function enableFpsMonitor():void
-        {
-            if(fpsMoniter == null)fpsMoniter = new ResourceMonitor();
-            _root.addChild(fpsMoniter);
-        }
-        public function disableFpsMonitor():void
-        {
-            _root.removeChild(fpsMoniter);
-            fpsMoniter = null;
-        }
+		
 		protected function setupPlayer(event:Event=null):void {
 			try {
 				this.removeEventListener(Event.ADDED_TO_STAGE, setupPlayer);
@@ -92,20 +70,11 @@
 			controller.addEventListener(PlayerEvent.JWPLAYER_READY, playerReady, false, -1);
 			controller.setupPlayer();
 		}
+		
 		protected function newModel():Model {
 			return new Model();
 		}
-        protected function checkFPS(e:Event):void
-        {
-            var currentTime:Number = (getTimer() - startTime) / 1000;
-            framesNumber++;
-            if (currentTime > 1)
-            {
-                _FPS = (framesNumber/currentTime) << 0;
-                startTime = getTimer();
-                framesNumber = 0;
-            }
-        }
+		
 		protected function newView(mod:Model):View {
 			return new View(this, mod);
 		}
@@ -170,10 +139,7 @@
 		public function get state():String {
 			return model.state;
 		}
-		public function reset():void
-        {
-            model.state = PlayerState.IDLE;
-        }
+		
 		
 		/**
 		 * @inheritDoc
@@ -259,7 +225,6 @@
 		 * @inheritDoc
 		 */
 		public function load(item:*):Boolean {
-            trace("load");
 			return controller.load(item);
 		}
 		
@@ -306,10 +271,6 @@
 		public function get controls():IPlayerComponents {
 			return view.components;
 		}
-        
-        public function get FPS():int {
-            return _FPS;
-        }
 
 		/**
 		 * @inheritDoc
