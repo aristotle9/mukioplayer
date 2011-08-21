@@ -119,10 +119,6 @@ package com.longtailvideo.jwplayer.model {
 		public function get state():String {
 			return _currentMedia ? _currentMedia.state : PlayerState.IDLE;
 		}
-        
-        public function set state(stat:String):void{
-            _currentMedia.state = stat;
-        }
 
 		/**
 		 * The loaded playlist
