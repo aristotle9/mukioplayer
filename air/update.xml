@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.172</version> 
+ <version>1.173</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.172(2011年8月9日):
- * 修改对acfun的解析
+MukioPlayer -- AB 桌面播放器 v1.173(2011年8月9日):
+ * 修复youku问题
 ]]></description> 
 </update>
