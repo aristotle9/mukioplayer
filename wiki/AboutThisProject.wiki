@@ -1,4 +1,4 @@
-#license of source code
+#summary about source code
 
 = 使用声明 =
 
