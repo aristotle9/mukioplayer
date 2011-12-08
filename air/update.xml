@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.174</version> 
+ <version>1.176</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.174(2011年11月25日):
- * 尝试修复无法获取Bili的网页信息
+MukioPlayer -- AB 桌面播放器 v1.176(2011年12月9日):
+ * 修复无法获取Bili的网页信息
+ * 实现弹幕与视频大小的相关性可调节性
 ]]></description> 
 </update>
