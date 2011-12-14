@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.176</version> 
+ <version>1.178</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.176(2011年12月9日):
- * 修复无法获取Bili的网页信息
- * 实现弹幕与视频大小的相关性可调节性
+MukioPlayer -- AB 桌面播放器 v1.178(2011年12月14日):
+ * 侧栏跟随主窗口最小化与恢复窗口
+ * 修复无拉伸时的弹幕位置
+ * 更改界面字体为-微软雅黑粗体
+ * 提供外挂嵌入字体方案,具体方法阅读
+   fonts/字体说明.txt
 ]]></description> 
 </update>
