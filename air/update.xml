@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.178</version> 
+ <version>1.180</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.178(2011年12月14日):
- * 侧栏跟随主窗口最小化与恢复窗口
- * 修复无拉伸时的弹幕位置
- * 更改界面字体为-微软雅黑粗体
- * 提供外挂嵌入字体方案,具体方法阅读
-   fonts/字体说明.txt
+MukioPlayer -- AB 桌面播放器 v1.180(2012年1月9日):
+ * 图像抓取功能(信息与字体面板)
+ * 按钮皮肤的修改
+ * 更加安全的字体使用方案
+ * 取消消息框文本的重复判断
+ * 冷却时间改为0.5秒
+ * 对acfun新的JSON格式的支持:可以保存为xml格式
+   注:本地格式只支持xml
 ]]></description> 
 </update>
