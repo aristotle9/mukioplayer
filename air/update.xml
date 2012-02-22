@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.180</version> 
+ <version>1.182</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.180(2012年1月9日):
- * 图像抓取功能(信息与字体面板)
- * 按钮皮肤的修改
- * 更加安全的字体使用方案
- * 取消消息框文本的重复判断
- * 冷却时间改为0.5秒
- * 对acfun新的JSON格式的支持:可以保存为xml格式
-   注:本地格式只支持xml
+MukioPlayer -- AB 桌面播放器 v1.182(2012年2月22日):
+ * 更高效的内存回收方式
+ * 视频列表缩减为一栏
+ * "zoome实验室"改为"ZOOME弹幕"
 ]]></description> 
 </update>
