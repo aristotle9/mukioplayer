@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.182.2</version> 
+ <version>1.182.4</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.182.2(2012年2月22日):
- * 更高效的内存回收方式
- * 视频列表缩减为一栏
- * 自动播放下一章节选项
- * "zoome实验室"改为"ZOOME弹幕"
+MukioPlayer -- AB 桌面播放器 v1.182.4(2012年3月10日):
+ * 便捷的保存弹幕图标
+ * 更加自动化的自动更新
 ]]></description> 
 </update>
