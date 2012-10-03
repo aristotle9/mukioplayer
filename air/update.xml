@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
- <version>1.184.0</version> 
+ <version>1.184.2</version> 
  <url>http://mukioplayer.googlecode.com/svn/air/mukioplayer.air</url> 
  <description><![CDATA[
-MukioPlayer -- AB 桌面播放器 v1.184.0(2012年10月3日):
- * 修复bilibili在线播放功能
+MukioPlayer -- AB 桌面播放器 v1.184.2(2012年10月3日):
+ * 修复bilibili在线播放功能(视频与弹幕)
 ]]></description> 
 </update>
