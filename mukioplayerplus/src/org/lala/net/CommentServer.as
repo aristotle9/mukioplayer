@@ -37,6 +37,9 @@ package org.lala.net
         private var _responderPut:flash.net.Responder;
         private var _responderGet:flash.net.Responder;
         private var _dispathHandle:Function;
+		
+		private var _fmsDispatcher:FMSDispatcher = null;
+		private var _rtmp:String;
 
         public function CommentServer(target:IEventDispatcher=null)
         {
@@ -86,6 +89,10 @@ package org.lala.net
                 log("无法发送弹幕,服务器配置不正确.");
                 EventBus.getInstance().removeEventListener(MukioEvent.SEND,sendHandler);
             }
+			if(_fmsDispatcher)
+			{
+				_fmsDispatcher.sendData(item);
+			}
         }
         private function postLoader_CompleteHandler(event:Event):void
         {
@@ -117,6 +124,11 @@ package org.lala.net
         {
             _cid = value;
             _postServer = _conf.getCommentPostURL(_cid);
+			if(rtmp != "" && _cid != null)
+			{
+				_fmsDispatcher = new FMSDispatcher(rtmp + '/' + _cid + '/');
+				_fmsDispatcher.addEventListener("newCmtData", rtmpNewCmtDataHandler);
+			}
         }
         
         private function log(message:String):void
@@ -181,6 +193,7 @@ package org.lala.net
         {
             _conf = value;
             gateway = _conf.gateway;
+			rtmp = value.rtmp;
         }
 
         public function get user():String
@@ -192,6 +205,28 @@ package org.lala.net
         {
             _user = value;
         }
+
+		public function get rtmp():String
+		{
+			return _rtmp;
+		}
+
+		public function set rtmp(value:String):void
+		{
+			_rtmp = value;
+			
+			if(rtmp != "" && _cid != null)
+			{
+				_fmsDispatcher = new FMSDispatcher(rtmp + '/' + _cid + '/');
+				_fmsDispatcher.addEventListener("newCmtData", rtmpNewCmtDataHandler);
+			}
+		}
+		
+		private function rtmpNewCmtDataHandler(event:MukioEvent):void
+		{
+			delete event.data.border;
+			EventBus.getInstance().sendMukioEvent("displayRtmp", event.data);
+		}
 
 
     }

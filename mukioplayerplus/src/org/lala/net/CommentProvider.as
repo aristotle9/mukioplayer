@@ -32,6 +32,7 @@ package org.lala.net
             xmlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,errorHandler);
             
             EventBus.getInstance().addEventListener(MukioEvent.DISPLAY,displayeHandler);
+            EventBus.getInstance().addEventListener("displayRtmp",displayeHandler);
         }
         /** 接收内部发送的显示消息 **/
         private function displayeHandler(event:MukioEvent):void

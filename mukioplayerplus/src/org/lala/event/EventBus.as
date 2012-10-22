@@ -13,6 +13,7 @@ package org.lala.event
     [Event(name="send",type="org.lala.event.MukioEvent")]
     [Event(name="display",type="org.lala.event.MukioEvent")]
     [Event(name="log",type="org.lala.event.MukioEvent")]
+	[Event(name="displayRtmp", type="org.lala.event.MukioEvent")]
     public class EventBus extends EventDispatcher
     {
         private static var instance:EventBus;
