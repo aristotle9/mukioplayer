@@ -19,7 +19,7 @@
     <send></send>
     <!-- Amf的POST发送地址,优先gateway -->
     <gateway></gateway>
-    <!-- fms广播地址 -->
-    <rtmp>rtmp://127.0.0.1/chat</rtmp>
+    <!-- 广播地址,如果要实现实时弹幕,请填写正确的RTMP应用程序地址,并且架好RTMP服务器 -->
+    <!-- <rtmp>rtmp://127.0.0.1/chat</rtmp> -->
   </server>
 </conf>
