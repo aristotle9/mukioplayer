@@ -12,7 +12,8 @@ package org.lala.utils
         private var _onHost:String;
         private var _root:DisplayObject;
         private var _gateway:String;
-        
+        private var _rtmp:String;
+		
         public function CommentXMLConfig(_r:DisplayObject)
         {
             _root = _r;
@@ -25,6 +26,7 @@ package org.lala.utils
             _send = _xml.server.send;
             _gateway = _xml.server.gateway;
             _onHost = _xml.server.onhost;
+			_rtmp = String(_xml.server.rtmp);
             // ...
         }
         public function get initialized():Boolean
@@ -72,6 +74,11 @@ package org.lala.utils
         {
             return _onHost.length != 0;
         }
+		/** 消息服务器 **/
+		public function get rtmp():String
+		{
+			return _rtmp;
+		}
 
 
     }
