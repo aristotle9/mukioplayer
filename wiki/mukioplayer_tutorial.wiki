@@ -1,4 +1,4 @@
-#MukioPlayer与MukioPlayerPlus的简单使用方式(aspx)
+#MukioPlayer与MukioPlayerPlus的简单使用方式
 
 = 如何与web后端整合(aspx) =
 
