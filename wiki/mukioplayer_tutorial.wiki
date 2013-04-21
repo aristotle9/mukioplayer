@@ -1,8 +1,6 @@
-#MukioPlayer与MukioPlayerPlus的简单使用方式
+#summary mukioplayer如何与web后端整合(aspx)
 
-= 如何与web后端整合(aspx) =
-
-== 文章作者: [http://blog.sina.com.cn/kaedei Kaedei] ==
+=== 文章作者: [http://blog.sina.com.cn/kaedei Kaedei] ===
 
 
   * [http://blog.sina.com.cn/s/blog_58c506600101i5sr.html MukioPlayer Web/Plus 的简单使用方式]
