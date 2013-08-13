@@ -1,6 +1,6 @@
-#summary mukioplayer如何与web后端整合(aspx)
+#summary MukioPlayerPlus后端开发与应用的相关资源
 
-=== 文章作者: [http://blog.sina.com.cn/kaedei Kaedei] ===
+=== aspx系列，作者: [http://blog.sina.com.cn/kaedei Kaedei] ===
 
 
   * [http://blog.sina.com.cn/s/blog_58c506600101i5sr.html MukioPlayer Web/Plus 的简单使用方式]
